@@ -3,13 +3,13 @@
  * A class which represents an Http Reponse
  * Handles parsing cookies and headers
  *
- * Based on PEAR Http_Response
+ * Based on PEAR TTP_Response
  *
  * @author  Richard Heyes <richard@phpguru.org>
  * @author  Joshua Eichorn <josh@bluga.net>
  * @version $Revision: 1.52 $
  */
-class Bluga_Http_Response {
+class PEAR2_HTTP_Response {
 
     /**
      * Http Protocol
@@ -62,9 +62,9 @@ class Bluga_Http_Response {
     /**
      * Constructor
      *
-     * @param  Bluga_Stream $response Stream holding the raw response
+     * @param  PEAR2_Stream $response Stream holding the raw response
      */
-    function Bluga_HTTP_Response(Bluga_Stream $response)
+    public function __construct($response)
     {
         $this->_stream = $response;
     }
@@ -85,12 +85,12 @@ class Bluga_Http_Response {
      * @throws Exception
      * @return boolean     true on success
      */
-    function parse($saveBody = true, $canHaveBody = true)
+    public function parse($saveBody = true, $canHaveBody = true)
     {
         do {
             $line = $this->_stream->readLine();
             if (sscanf($line, 'HTTP/%s %s', $http_version, $returncode) != 2) {
-                throw new Exception('Malformed response.');
+                throw new PEAR2_HTTP_Request_Exception('Malformed response.');
             } else {
                 $this->protocol = 'HTTP/' . $http_version;
                 $this->code     = intval($returncode);
@@ -98,7 +98,7 @@ class Bluga_Http_Response {
             while ('' !== ($header = $this->_stream->readLine())) {
                 $this->_processHeader($header);
             }
-        } while (100 == $this->code);
+        } while ($this->code == 100);
 
         // RFC 2616, section 4.4:
         // 1. Any response message which "MUST NOT" include a message-body ... 
@@ -121,7 +121,7 @@ class Bluga_Http_Response {
             } else {
                 $this->_toRead = $this->headers['content-length'];
             }
-            while (!$this->_stream->eof() && (is_null($this->_toRead) || 0 < $this->_toRead)) {
+            while (!$this->_stream->eof() && (is_null($this->_toRead) || $this->_toRead > 0)) {
                 if ($chunked) {
                     $data = $this->_readChunked();
                 } elseif (is_null($this->_toRead)) {
@@ -130,7 +130,7 @@ class Bluga_Http_Response {
                     $data = $this->_stream->read(min(4096, $this->_toRead));
                     $this->_toRead -= strlen($data);
                 }
-                if ('' == $data) {
+                if ($data == '') {
                     break;
                 } else {
                     $hasBody = true;
@@ -161,11 +161,12 @@ class Bluga_Http_Response {
     * @access private
     * @param  string    HTTP header
     */
-    function _processHeader($header)
+    private function _processHeader($header)
     {
-        if (false === strpos($header, ':')) {
+        if (strpos($header, ':') === false) {
             return;
         }
+        
         list($headername, $headervalue) = explode(':', $header, 2);
         $headername  = strtolower($headername);
         $headervalue = ltrim($headervalue);
@@ -188,7 +189,7 @@ class Bluga_Http_Response {
     * @access private
     * @param  string    value of Set-Cookie header
     */
-    function _parseCookie($headervalue)
+    private function _parseCookie($headervalue)
     {
         $cookie = array(
             'expires' => null,
@@ -239,7 +240,7 @@ class Bluga_Http_Response {
     * @access private
     * @return string
     */
-    function _readChunked()
+    private function _readChunked()
     {
         // at start of the next chunk?
         if (0 == $this->_chunkLength) {
@@ -274,20 +275,22 @@ class Bluga_Http_Response {
     * @param    string  gzip-encoded data
     * @return   string  decoded data
     */
-    function _decodeGzip($data)
+    private function _decodeGzip($data)
     {
         $length = strlen($data);
         // If it doesn't look like gzip-encoded data, don't bother
-        if (18 > $length || strcmp(substr($data, 0, 2), "\x1f\x8b")) {
+        if ($length < 18 || strcmp(substr($data, 0, 2), "\x1f\x8b")) {
             return $data;
         }
         $method = ord(substr($data, 2, 1));
-        if (8 != $method) {
-            return PEAR::raiseError('_decodeGzip(): unknown compression method');
+        if ($method != 8) {
+            throw new PEAR2_HTTP_Request_Exception('_decodeGzip(): unknown compression method');
         }
+        
         $flags = ord(substr($data, 3, 1));
+
         if ($flags & 224) {
-            return PEAR::raiseError('_decodeGzip(): reserved bits are set');
+            throw new PEAR2_HTTP_Request_Exception('_decodeGzip(): reserved bits are set');
         }
 
         // header is 10 bytes minimum. may be longer, though.
@@ -295,45 +298,47 @@ class Bluga_Http_Response {
         // extra fields, need to skip 'em
         if ($flags & 4) {
             if ($length - $headerLength - 2 < 8) {
-                return PEAR::raiseError('_decodeGzip(): data too short');
+                throw new PEAR2_HTTP_Request_Exception('_decodeGzip(): data too short');
             }
+            
             $extraLength = unpack('v', substr($data, 10, 2));
             if ($length - $headerLength - 2 - $extraLength[1] < 8) {
-                return PEAR::raiseError('_decodeGzip(): data too short');
+                throw new PEAR2_HTTP_Request_Exception('_decodeGzip(): data too short');
             }
+
             $headerLength += $extraLength[1] + 2;
         }
         // file name, need to skip that
         if ($flags & 8) {
             if ($length - $headerLength - 1 < 8) {
-                return PEAR::raiseError('_decodeGzip(): data too short');
+                throw new PEAR2_HTTP_Request_Exception('_decodeGzip(): data too short');
             }
             $filenameLength = strpos(substr($data, $headerLength), chr(0));
             if (false === $filenameLength || $length - $headerLength - $filenameLength - 1 < 8) {
-                return PEAR::raiseError('_decodeGzip(): data too short');
+                throw new PEAR2_HTTP_Request_Exception('_decodeGzip(): data too short');
             }
             $headerLength += $filenameLength + 1;
         }
         // comment, need to skip that also
         if ($flags & 16) {
             if ($length - $headerLength - 1 < 8) {
-                return PEAR::raiseError('_decodeGzip(): data too short');
+                throw new PEAR2_HTTP_Request_Exception('_decodeGzip(): data too short');
             }
             $commentLength = strpos(substr($data, $headerLength), chr(0));
             if (false === $commentLength || $length - $headerLength - $commentLength - 1 < 8) {
-                return PEAR::raiseError('_decodeGzip(): data too short');
+                throw new PEAR2_HTTP_Request_Exception('_decodeGzip(): data too short');
             }
             $headerLength += $commentLength + 1;
         }
         // have a CRC for header. let's check
         if ($flags & 1) {
             if ($length - $headerLength - 2 < 8) {
-                return PEAR::raiseError('_decodeGzip(): data too short');
+                throw new PEAR2_HTTP_Request_Exception('_decodeGzip(): data too short');
             }
             $crcReal   = 0xffff & crc32(substr($data, 0, $headerLength));
             $crcStored = unpack('v', substr($data, $headerLength, 2));
             if ($crcReal != $crcStored[1]) {
-                return PEAR::raiseError('_decodeGzip(): header CRC check failed');
+                throw new PEAR2_HTTP_Request_Exception('_decodeGzip(): header CRC check failed');
             }
             $headerLength += 2;
         }
@@ -345,14 +350,14 @@ class Bluga_Http_Response {
         // finally, call the gzinflate() function
         $unpacked = @gzinflate(substr($data, $headerLength, -8), $dataSize);
         if (false === $unpacked) {
-            return PEAR::raiseError('_decodeGzip(): gzinflate() call failed');
+            throw new PEAR2_HTTP_Request_Exception('_decodeGzip(): gzinflate() call failed');
         } elseif ($dataSize != strlen($unpacked)) {
-            return PEAR::raiseError('_decodeGzip(): data size check failed');
+            throw new PEAR2_HTTP_Request_Exception('_decodeGzip(): data size check failed');
         } elseif ($dataCrc != crc32($unpacked)) {
-            return PEAR::raiseError('_decodeGzip(): data CRC check failed');
+            throw new PEAR2_HTTP_Request_Exception('_decodeGzip(): data CRC check failed');
         }
         return $unpacked;
     }
-} // End class Bluga_HTTP_Response
+} // End class PEAR2_HTTP_Response
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 ?>
