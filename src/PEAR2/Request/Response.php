@@ -1,11 +1,11 @@
 <?php
 /**
- * A class which represents an Http Reponse
+ * A class which represents an HTTP Reponse
  *
  * @author  Joshua Eichorn <josh@bluga.net>
  */
-class Bluga_Http_Request_Response {
-
+class PEAR2_HTTP_Request_Response 
+{
     /**
      * HTTP Return code
      * @var string
@@ -34,13 +34,18 @@ class Bluga_Http_Request_Response {
     /**
      * Constructor
      *
+     *
+     * @see $this->body
+     * @see $this->headers
+     * @see $this->cookies
      */
-    function Bluga_HTTP_Request_Response($details, $body, $headers, $cookies)
+    public function __construct($details, $body, $headers, $cookies)
     {
         foreach($details as $name => $value) {
             $this->name = $value;
         }
-        $this->body = $body;
+        
+        $this->body    = $body;
         $this->headers = $headers;
         $this->cookies = $cookies;
     }
