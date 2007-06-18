@@ -7,6 +7,7 @@ abstract class PEAR2_HTTP_Request_Adapter
     public $verb = 'GET';
     public $headers;
     public $body;
+    public $requestTimeout = 10;
 
     public function sendRequest() 
     {
