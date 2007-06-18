@@ -1,29 +1,32 @@
 <?php
-abstract class Bluga_Http_Request_Adapter {
+abstract class PEAR2_HTTP_Request_Adapter 
+{
 
-	public $httpVersion = 'HTTP/1.1';
+    public $httpVersion = 'HTTP/1.1';
     public $uri;
-	public $verb = 'GET';
+    public $verb = 'GET';
     public $headers;
     public $body;
 
-	public function sendRequest() {
-	}
+    public function sendRequest() 
+    {
+    }
 
-    protected function parseResponseCode($line) {
+    protected function parseResponseCode($line) 
+    {
         if (sscanf($line, 'HTTP/%s %s', $http_version, $returncode) != 2) {
-            throw new Http_Request_Exception('Malformed response.');
+            throw new PEAR2_HTTP_Request_Exception('Malformed response.');
         } else {
             return array('code' => intval($returncode), 'httpVersion' => $http_version);
         }
     }
 
     /**
-    * Parse a Set-Cookie header to fill $_cookies array
-    *
-    * @access private
-    * @param  string    value of Set-Cookie header
-    */
+     * Parse a Set-Cookie header to fill $_cookies array
+     *
+     * @access private
+     * @param  string    value of Set-Cookie header
+     */
     protected function parseCookie($headervalue)
     {
         $cookie = array(
@@ -39,7 +42,7 @@ abstract class Bluga_Http_Request_Adapter {
             $cookie['name']  = trim(substr($headervalue, 0, $pos));
             $cookie['value'] = trim(substr($headervalue, $pos + 1));
 
-        // Some optional parameters are supplied
+            // Some optional parameters are supplied
         } else {
             $elements = explode(';', $headervalue);
             $pos = strpos($elements[0], '=');
@@ -53,12 +56,14 @@ abstract class Bluga_Http_Request_Adapter {
                 } else {
                     list ($elName, $elValue) = array_map('trim', explode('=', $elements[$i]));
                 }
+
                 $elName = strtolower($elName);
-                if ('secure' == $elName) {
+
+                if ($elName == 'secure') {
                     $cookie['secure'] = true;
-                } elseif ('expires' == $elName) {
+                } elseif ($elName == 'expires') {
                     $cookie['expires'] = str_replace('"', '', $elValue);
-                } elseif ('path' == $elName || 'domain' == $elName) {
+                } elseif ($elName == 'path' || $elName == 'domain') {
                     $cookie[$elName] = urldecode($elValue);
                 } else {
                     $cookie[$elName] = $elValue;
@@ -67,6 +72,5 @@ abstract class Bluga_Http_Request_Adapter {
         }
         return $cookie;
     }
-
 }
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
