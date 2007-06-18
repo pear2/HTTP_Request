@@ -2,7 +2,7 @@
 /**
  * driver that uses php http:// stream to do requests
  *
- * Loosely Based on PEAR Http_Response
+ * Loosely Based on PEAR HTTP_Response
  *
  * @author  Elizabeth Marie Smith <auroraeosrose@php.net>
  * @author  Joshua Eichorn <josh@bluga.net>
@@ -21,8 +21,12 @@ class PEAR2_HTTP_Request_Adapter_PhpStream extends PEAR2_HTTP_Request_Adapter
         }
     }
 
+
     /**
-     *@todo make timeouts configurable
+     * Send the request
+     *
+     * This function sends the actual request to the
+     * remote/local webserver using php streams.
      */
     public function sendRequest() 
     {
