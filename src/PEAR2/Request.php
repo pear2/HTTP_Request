@@ -2,13 +2,13 @@
 /**
  * class to do http requests, uses a adapter based system for performing those requests
  *
- * Loosely Based on PEAR Http_Response
+ * Loosely Based on PEAR HTTP_Response
  *
  * @author  Elizabeth Marie Smith <auroraeosrose@php.net>
  * @author  Joshua Eichorn <josh@bluga.net>
  * @version $Id$
  */
-class PEAR2_Http_Request 
+class PEAR2_HTTP_Request 
 {
 
     /**
@@ -71,14 +71,14 @@ class PEAR2_Http_Request
      */
     public function __construct($url = null, $class = null) 
     {
-        if (!is_null($class) && $class instanceof Bluga_Http_Request_Adapter) {
+        if (!is_null($class) && $class instanceof PEAR2_HTTP_Request_Adapter) {
             $this->adapter = new $class;
         } elseif (extension_loaded('pecl_http')) {
-            $this->adapter = new Bluga_Http_Request_Adapter_Http;
+            $this->adapter = new PEAR2_HTTP_Request_Adapter_Http;
         } elseif (ini_get('allow_url_fopen') == true) {
-            $this->adapter = new Bluga_Http_Request_Adapter_Phpstream;
+            $this->adapter = new PEAR2_HTTP_Request_Adapter_Phpstream;
         } else {
-            $this->adapter = new Bluga_Http_Request_Adapter_Phpsocket;
+            $this->adapter = new PEAR2_HTTP_Request_Adapter_Phpsocket;
         }
 
         if ($url) {
