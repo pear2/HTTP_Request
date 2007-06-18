@@ -1,3 +1,3 @@
 <?php
-class Bluga_Http_Request_Adapter_Curl extends Bluga_Http_Request_Adapter {
+class PEAR2_HTTP_Request_Adapter_Curl extends PEAR2_HTTP_Request_Adapter {
 }
