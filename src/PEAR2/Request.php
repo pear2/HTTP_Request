@@ -8,39 +8,44 @@
  * @author  Joshua Eichorn <josh@bluga.net>
  * @version $Id$
  */
-class Bluga_Http_Request {
+class PEAR2_Http_Request 
+{
 
+    /**
+     * The adapter that the requester uses.
+     *
+     * @see adapters
+     */
     protected $adapter;
 
-   /**
-    * Magic to retrieve items that are actually stored in the adapter
-    *
-    * @param  string $name name of var to get
-    */
+    /**
+     * Magic to retrieve items that are actually stored in the adapter
+     *
+     * @param  string $name name of var to get
+     */
     public function __get($name)
     {
-        if (isset($this->adapter->$name))
-        {
+        if (isset($this->adapter->$name)) {
             return $this->adapter->$name;
         }
     }
 
-   /**
-    * Magic to set items that are actually stored in the adapter
-    *
-    * @param  string $name name of var to set
-    * @param  mixed $value to give to var
-    */
+    /**
+     * Magic to set items that are actually stored in the adapter
+     *
+     * @param  string $name name of var to set
+     * @param  mixed $value to give to var
+     */
     public function __set($name, $value)
     {
         switch($name) {
             case 'verb':
-                 $this->adapter->verb = strtoupper($value);
-            break;
+                $this->adapter->verb = strtoupper($value);
+                break;
             case 'uri':
             case 'url':
                 $this->adapter->uri = new Net_URL2($value);
-            break;
+                break;
             case 'body':
             case 'content':
                 if (is_array($value)) {
@@ -49,37 +54,30 @@ class Bluga_Http_Request {
                     if ($this->adapter->verb == 'GET') {
                         $this->adapter->verb = 'POST';
                     }
-                }
-                else {
+                } else {
                     $this->adapter->body = $value;
                 }
-            break;
+                break;
             default:
                 $this->adapter->$name = $value;
-            break;
+                break;
         }
     }
 
-   /**
-    * sets up the adapter
-    *
-    * @param  string $class adapter to use
-    */
-    public function __construct($url = null, $class = null) {
-        if (!is_null($class) && $class instanceof Bluga_Http_Request_Adapter)
-        {
+    /**
+     * sets up the adapter
+     *
+     * @param  string $class adapter to use
+     */
+    public function __construct($url = null, $class = null) 
+    {
+        if (!is_null($class) && $class instanceof Bluga_Http_Request_Adapter) {
             $this->adapter = new $class;
-        }
-        elseif (extension_loaded('pecl_http'))
-        {
+        } elseif (extension_loaded('pecl_http')) {
             $this->adapter = new Bluga_Http_Request_Adapter_Http;
-        }
-        elseif (ini_get('allow_url_fopen') == true)
-        {
+        } elseif (ini_get('allow_url_fopen') == true) {
             $this->adapter = new Bluga_Http_Request_Adapter_Phpstream;
-        }
-        else
-        {
+        } else {
             $this->adapter = new Bluga_Http_Request_Adapter_Phpsocket;
         }
 
@@ -88,20 +86,25 @@ class Bluga_Http_Request {
         }
     }
 
-   /**
-    * asks for a response class from the adapter
-    *
-    * @param  string $class adapter to use
-    */
-    public function sendRequest() {
+    /**
+     * asks for a response class from the adapter
+     *
+     * @param  string $class adapter to use
+     * @return mixed  The response from the adapter
+     */
+    public function sendRequest() 
+    {
         $response = $this->adapter->sendRequest();
         return $response;
     }
 
     /**
      * Setter for request headers
+     * 
+     * @see $this->adapter->headers
      */
-    public function setHeader($header,$value) {
+    public function setHeader($header, $value) 
+    {
         $this->adapter->headers[$header] = $value;
     }
 }
