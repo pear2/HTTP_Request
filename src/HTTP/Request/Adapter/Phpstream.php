@@ -4,9 +4,6 @@
  *
  * Loosely Based on PEAR HTTP_Response
  *
- * @author  Elizabeth Marie Smith <auroraeosrose@php.net>
- * @author  Joshua Eichorn <josh@bluga.net>
- * @author  David Coallier <davidc@php.net>
  * @version $Revision: 1.52 $
  */
 class PEAR2_HTTP_Request_Adapter_PhpStream extends PEAR2_HTTP_Request_Adapter 

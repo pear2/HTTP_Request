@@ -2,7 +2,6 @@
 /**
  * A class which represents an HTTP Reponse
  *
- * @author  Joshua Eichorn <josh@bluga.net>
  */
 class PEAR2_HTTP_Request_Response 
 {

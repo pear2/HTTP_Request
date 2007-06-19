@@ -5,8 +5,6 @@
  *
  * Based on PEAR TTP_Response
  *
- * @author  Richard Heyes <richard@phpguru.org>
- * @author  Joshua Eichorn <josh@bluga.net>
  * @version $Revision: 1.52 $
  */
 class PEAR2_HTTP_Response {

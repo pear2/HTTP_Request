@@ -4,8 +4,6 @@
  *
  * Loosely Based on PEAR HTTP_Response
  *
- * @author  Elizabeth Marie Smith <auroraeosrose@php.net>
- * @author  Joshua Eichorn <josh@bluga.net>
  * @version $Id$
  */
 class PEAR2_HTTP_Request 
