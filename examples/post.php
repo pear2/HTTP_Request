@@ -1,8 +1,7 @@
 <?php
-require_once '../../Bluga/Http/Request/AllFiles.php';
+require_once 'PEAR2/HTTP/Request/AllFiles.php';
 
-$request = new Bluga_Http_Request();
-$request->url = "http://bluga.net/post.php";
+$request = new PEAR2_HTTP_Request('http://bluga.net/post.php');
 $request->body = array('test1'=>'value1','test2'=>'value2');
 
 $response = $request->sendRequest();
