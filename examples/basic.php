@@ -1,7 +1,7 @@
 <?php
-require_once '../../Bluga/Http/Request/AllFiles.php';
+require_once 'PEAR2/HTTP/Request/allfiles.php';
 
-$request = new Bluga_Http_Request("http://bluga.net/webthumb/");
+$request = new Bluga_Http_Request('http://bluga.net/webthumb/');
 $response = $request->sendRequest();
 
 var_dump($response->code);
