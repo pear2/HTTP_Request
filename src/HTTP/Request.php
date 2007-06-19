@@ -58,6 +58,8 @@ class PEAR2_HTTP_Request
                     $this->adapter->body = $value;
                 }
                 break;
+            case 'requestTimeout':
+                $this->adapter->$name = (int)$value;
             default:
                 $this->adapter->$name = $value;
                 break;
