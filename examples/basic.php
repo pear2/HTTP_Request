@@ -1,7 +1,10 @@
 <?php
-require_once 'PEAR2/HTTP/Request/allfiles.php';
+//require_once 'PEAR2/HTTP/Request/allfiles.php';
 
-$request = new PEAR2_HTTP_Request('http://bluga.net/webthumb/');
+// to run from svn checkout
+require_once '../src/HTTP/Request/allfiles.php';
+
+$request = new PEAR2_HTTP_Request('http://pear.php.net/');
 $response = $request->sendRequest();
 
 var_dump($response->code);
