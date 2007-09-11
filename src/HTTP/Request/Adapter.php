@@ -5,7 +5,7 @@ abstract class PEAR2_HTTP_Request_Adapter
     public $httpVersion = 'HTTP/1.1';
     public $uri;
     public $verb = 'GET';
-    public $headers;
+    public $headers = array();
     public $body;
     public $requestTimeout = 10;
 
