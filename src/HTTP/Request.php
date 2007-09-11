@@ -69,10 +69,10 @@ class PEAR2_HTTP_Request
      *
      * @param  string $class adapter to use
      */
-    public function __construct($url = null, $class = null) 
+    public function __construct($url = null, $instance = null) 
     {
-        if (!is_null($class) && $class instanceof PEAR2_HTTP_Request_Adapter) {
-            $this->adapter = new $class;
+        if (!is_null($instance) && $instance instanceof PEAR2_HTTP_Request_Adapter) {
+            $this->adapter = $instance;
         } elseif (extension_loaded('pecl_http')) {
             $this->adapter = new PEAR2_HTTP_Request_Adapter_Http;
         } elseif (ini_get('allow_url_fopen') == true) {

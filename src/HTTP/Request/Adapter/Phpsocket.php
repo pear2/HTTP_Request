@@ -1,4 +1,39 @@
 <?php
+class PEAR2_HTTP_Request_Adapter_Phpsocket_Socket {
+        public $lineLength = 2048;
+        private $_handle;
+
+        public function __construct($handle) {
+                $this->_handle = $handle;
+        }
+
+        public function readLine() {
+                $line = '';
+                while(!$this->eof()) {
+                        $line .= @fgets($this->_handle, $this->lineLength);
+                        if (substr($line, -1) == "\n") {
+                                return rtrim($line, "\r\n");
+                        }
+                }
+                return false;
+        }
+
+        public function read($size) {
+                if ($this->eof()) {
+                        return false;
+                }
+                return @fread($this->_handle,$size);
+        }
+
+        public function write($payload) {
+                return fwrite($this->_handle,$payload,strlen($payload));
+        }
+
+        public function eof() {
+                return feof($this->_handle);
+        }
+}
+
 /**
  * A class which represents an Http Reponse
  * Handles parsing cookies and headers
@@ -7,7 +42,7 @@
  *
  * @version $Revision: 1.52 $
  */
-class PEAR2_HTTP_Response {
+class PEAR2_HTTP_Request_Adapter_Phpsocket extends PEAR2_HTTP_Request_Adapter {
 
     /**
      * Http Protocol
@@ -23,22 +58,10 @@ class PEAR2_HTTP_Response {
     public $code = 100;
     
     /**
-     * Response headers
-     * @var array
-     */
-    public $headers;
-
-    /**
      * Cookies set in response  
      * @var array
      */
-    public $cookies;
-
-    /**
-     * Response body
-     * @var string
-     */
-    public $body = '';
+    private $cookies;
 
     /**
      * Used by _readChunked(): remaining length of the current chunk
@@ -57,16 +80,32 @@ class PEAR2_HTTP_Response {
      */
     private $_stream;
 
-    /**
-     * Constructor
-     *
-     * @param  PEAR2_Stream $response Stream holding the raw response
-     */
-    public function __construct($response)
-    {
-        $this->_stream = $response;
-    }
+    public function sendRequest() {
+        $payload = $this->_buildHeaders($this->uri->path,$this->uri->host,$this->headers,strlen($this->body));
+        $payload .= $this->body;
 
+        $errno    = 0;
+        $errstr   = '';
+        $handle   = fsockopen($this->uri->host, $this->uri->port, $errno, $errstr, 30);
+        stream_set_timeout($handle,10);
+
+        if (!is_resource($handle)) {
+            throw new Exception($errstr,$errno);
+        }
+
+        $this->_stream = new PEAR2_HTTP_Request_Adapter_Phpsocket_Socket($handle);
+
+        $this->_stream->write($payload);
+
+        $this->parse();
+
+        $details['code'] = $this->code;
+        $details['httpVersion'] = $this->protocol;
+
+
+        return new PEAR2_HTTP_Request_Response($details,$this->body,$this->headers,$this->cookies);
+
+    }
 
     /**
      * Parse a HTTP response
@@ -355,6 +394,20 @@ class PEAR2_HTTP_Response {
             throw new PEAR2_HTTP_Request_Exception('_decodeGzip(): data CRC check failed');
         }
         return $unpacked;
+    }
+
+    private function _buildHeaders($path, $host, $headers,$bodySize) {
+        $httpRequest  = "$this->verb $path $this->httpVersion\r\n";
+        $httpRequest .= "Host: $host\r\n";
+        foreach($headers as $key => $value) {
+            $httpRequest .= "$key: $value\r\n";
+        }
+        if ($bodySize > 0) {
+            $httpRequest .= "Content-Length:".$bodySize."\r\n";
+        }
+        $httpRequest .= "\r\n";
+
+        return $httpRequest;
     }
 } // End class PEAR2_HTTP_Response
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
