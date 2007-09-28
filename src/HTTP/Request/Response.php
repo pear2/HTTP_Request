@@ -41,7 +41,7 @@ class PEAR2_HTTP_Request_Response
     public function __construct($details, $body, $headers, $cookies)
     {
         foreach($details as $name => $value) {
-            $this->name = $value;
+            $this->$name = $value;
         }
         
         $this->body    = $body;
