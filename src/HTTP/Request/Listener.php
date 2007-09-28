@@ -107,7 +107,7 @@ class PEAR2_HTTP_Request_Listener
             $tmpMessage  = "Additional data: ";
             $tmpMessage .= print_r($data, true);
 
-            $this->_log[$this->_id]['extraData'][] = $tmpMessage
+            $this->_log[$this->_id]['extraData'][] = $tmpMessage;
         }
     }
 }
