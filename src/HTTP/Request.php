@@ -17,6 +17,16 @@ class PEAR2_HTTP_Request
     protected $adapter;
 
     /**
+     * The listeners
+     *
+     * This variable contains the listeners that are
+     * set (can be set) on this object.
+     *
+     * @var array $_listeners  The listeners
+     */
+    protected $_listeners = array();
+    
+    /**
      * Magic to retrieve items that are actually stored in the adapter
      *
      * @param  string $name name of var to get
@@ -106,6 +116,71 @@ class PEAR2_HTTP_Request
     public function setHeader($header, $value) 
     {
         $this->adapter->headers[$header] = $value;
+    }
+
+    /**
+     * Attach a listener
+     *
+     * This method adds a listener to the list of listeners that are 
+     * notified of the object's events.
+     *
+     * Events sent by the HTTP_Request Object
+     *  - 'connect'     : On connection to server
+     *  - 'sentRequest' : After the request was sent to server
+     *  - 'disconnect'  : Upon server disconnection
+     *
+     * Events sent by the HTTP_Response object
+     *  - 'gotHeaders' : After receiving response header
+     *  - 'tick'       : On receiving part of response
+     *  - 'gzTick'     : On receiving a gzip-encoded part
+     *  - 'gotBody'    : Upon receiving body of the message
+     *
+     *
+     * @param  PEAR2_HTTP_Request_Listener $listener  The listener object
+     * @return boolean Whether object is a listener or not
+     */
+    public function attach(PEAR2_HTTP_Request_Listener &$listener)
+    {
+        $this->_listeners[$listener->getId()] =& $listener;
+        return true;
+    }
+
+    /**
+     * Detach a listener
+     *
+     * This method will detach the listener that was set
+     * to a request.
+     *
+     * @param  PEAR2_HTTP_Request_Listener $listener   The listener
+     * @return bool true
+     */
+    public function detach(PEAR2_HTTP_Request_Listener &$listener)
+    {
+        if (isset($this->_listeners[$listener->getId()])) {
+            $this->_listeners[$listener->getId()] = null;
+        }
+
+        return true;
+    }
+
+    /**
+     * Notify
+     *
+     * This method notifies all registered listeners of
+     * the event that just happened.
+     *
+     * @param     string  $event  The event name
+     * @param     mixed  $data   Additional data
+     * @see       PEAR2_HTTP_Request->attach()
+     * @return    void
+     */
+    protected function _notify($event, $data = null)
+    {
+        if (!empty($this->_listeners)) {
+            foreach (array_keys($this->_listeners) as $id) {
+                $this->_listeners[$id]->update($this, $event, $data);
+            }
+        }
     }
 }
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
