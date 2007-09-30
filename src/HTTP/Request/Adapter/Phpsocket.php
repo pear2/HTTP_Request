@@ -219,7 +219,6 @@ class PEAR2_HTTP_Request_Adapter_Phpsocket extends PEAR2_HTTP_Request_Adapter {
         }
     }
 
-
    /**
     * Parse a Set-Cookie header to fill $_cookies array
     *
