@@ -76,7 +76,7 @@ class PEAR2_HTTP_Request_Listener
     */
     public function __construct()
     {
-        $this->_id = md5(uniqid('http_request_'));
+        $this->_id = md5(sha1('http_request_') . time());
     }
 
 
@@ -100,7 +100,7 @@ class PEAR2_HTTP_Request_Listener
     * @param    mixed   Additional data
     * @abstract
     */
-    function update(&$subject, $event, $data = null)
+    public function update(&$subject, $event, $data = null)
     {
         $this->_log[$this->_id]['notifications'][] = "Notified of event: '$event'\n";
         if ($data !== null) {

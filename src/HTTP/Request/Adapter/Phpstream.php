@@ -14,7 +14,9 @@ class PEAR2_HTTP_Request_Adapter_PhpStream extends PEAR2_HTTP_Request_Adapter
     public function __construct()
     {
         if (ini_get('allow_url_fopen') == false) {
-            throw new PEAR2_HTTP_Request_Exception('allow_url_fopen is off, the http:// stream wrapper will not function');
+            throw new PEAR2_HTTP_Request_Exception(
+                'allow_url_fopen is off, the http:// stream wrapper will not function'
+            );
         }
     }
 
@@ -62,7 +64,9 @@ class PEAR2_HTTP_Request_Adapter_PhpStream extends PEAR2_HTTP_Request_Adapter
         $body = stream_get_contents($fp);
 
         if ($body === false) {
-            throw new PEAR2_HTTP_Request_Exception('Url ' . $this->uri->url . ' did not return a response');
+            throw new PEAR2_HTTP_Request_Exception(
+                'Url ' . $this->uri->url . ' did not return a response'
+            );
         }
 
         $meta = stream_get_meta_data($fp);
