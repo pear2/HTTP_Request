@@ -9,6 +9,13 @@ abstract class PEAR2_HTTP_Request_Adapter
     public $body;
     public $requestTimeout = 10;
 
+    /**
+     * HTTP Return code
+     * @var string
+     * @link http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
+     */
+    public $code = 100;
+
     public function sendRequest() 
     {
     }
@@ -21,6 +28,34 @@ abstract class PEAR2_HTTP_Request_Adapter
             return array('code' => intval($returncode), 'httpVersion' => $http_version);
         }
     }
+
+   /**
+    * Processes the response header
+    *
+    * @access private
+    * @param  string    HTTP header
+    */
+    protected function processHeader($header)
+    {
+        if (strpos($header, ':') === false) {
+            return;
+        }
+
+        list($headername, $headervalue) = explode(':', $header, 2);
+        $headername  = strtolower($headername);
+        $headervalue = ltrim($headervalue);
+
+        if ('set-cookie' != $headername) {
+            if (isset($this->headers[$headername])) {
+                $this->headers[$headername] .= ',' . $headervalue;
+            } else {
+                $this->headers[$headername]  = $headervalue;
+            }
+        } else {
+            $this->cookies[] = $this->parseCookie($headervalue);
+        }
+    }
+
 
     /**
      * Parse a Set-Cookie header to fill $_cookies array

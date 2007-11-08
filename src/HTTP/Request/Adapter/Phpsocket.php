@@ -38,31 +38,13 @@ class PEAR2_HTTP_Request_Adapter_Phpsocket_Socket {
  * A class which represents an Http Reponse
  * Handles parsing cookies and headers
  *
- * Based on PEAR TTP_Response
+ * Based on PEAR HTTP_Response
  *
  * @version $Revision: 1.52 $
  */
 class PEAR2_HTTP_Request_Adapter_Phpsocket extends PEAR2_HTTP_Request_Adapter {
 
-    /**
-     * Http Protocol
-     * @var string
-     */
-    public $protocol;
     
-    /**
-     * HTTP Return code
-     * @var string
-     * @link http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
-     */
-    public $code = 100;
-    
-    /**
-     * Cookies set in response  
-     * @var array
-     */
-    private $cookies;
-
     /**
      * Used by _readChunked(): remaining length of the current chunk
      * @var string
@@ -100,7 +82,7 @@ class PEAR2_HTTP_Request_Adapter_Phpsocket extends PEAR2_HTTP_Request_Adapter {
         $this->parse();
 
         $details['code'] = $this->code;
-        $details['httpVersion'] = $this->protocol;
+        $details['httpVersion'] = $this->httpVersion;
 
 
         return new PEAR2_HTTP_Request_Response($details,$this->body,$this->headers,$this->cookies);
@@ -126,14 +108,12 @@ class PEAR2_HTTP_Request_Adapter_Phpsocket extends PEAR2_HTTP_Request_Adapter {
     {
         do {
             $line = $this->_stream->readLine();
-            if (sscanf($line, 'HTTP/%s %s', $http_version, $returncode) != 2) {
-                throw new PEAR2_HTTP_Request_Exception('Malformed response.');
-            } else {
-                $this->protocol = 'HTTP/' . $http_version;
-                $this->code     = intval($returncode);
-            }
+            $code = $this->parseResponseCode($line);
+            $this->httpVersion = 'HTTP/' . $code['httpVersion'];
+            $this->code     = $code['code'];
+
             while ('' !== ($header = $this->_stream->readLine())) {
-                $this->_processHeader($header);
+                $this->processHeader($header);
             }
         } while ($this->code == 100);
 
@@ -190,85 +170,6 @@ class PEAR2_HTTP_Request_Adapter_Phpsocket extends PEAR2_HTTP_Request_Adapter {
         }
         return true;
     }
-
-
-   /**
-    * Processes the response header
-    *
-    * @access private
-    * @param  string    HTTP header
-    */
-    private function _processHeader($header)
-    {
-        if (strpos($header, ':') === false) {
-            return;
-        }
-        
-        list($headername, $headervalue) = explode(':', $header, 2);
-        $headername  = strtolower($headername);
-        $headervalue = ltrim($headervalue);
-        
-        if ('set-cookie' != $headername) {
-            if (isset($this->headers[$headername])) {
-                $this->headers[$headername] .= ',' . $headervalue;
-            } else {
-                $this->headers[$headername]  = $headervalue;
-            }
-        } else {
-            $this->_parseCookie($headervalue);
-        }
-    }
-
-   /**
-    * Parse a Set-Cookie header to fill $_cookies array
-    *
-    * @access private
-    * @param  string    value of Set-Cookie header
-    */
-    private function _parseCookie($headervalue)
-    {
-        $cookie = array(
-            'expires' => null,
-            'domain'  => null,
-            'path'    => null,
-            'secure'  => false
-        );
-
-        // Only a name=value pair
-        if (!strpos($headervalue, ';')) {
-            $pos = strpos($headervalue, '=');
-            $cookie['name']  = trim(substr($headervalue, 0, $pos));
-            $cookie['value'] = trim(substr($headervalue, $pos + 1));
-
-        // Some optional parameters are supplied
-        } else {
-            $elements = explode(';', $headervalue);
-            $pos = strpos($elements[0], '=');
-            $cookie['name']  = trim(substr($elements[0], 0, $pos));
-            $cookie['value'] = trim(substr($elements[0], $pos + 1));
-
-            for ($i = 1; $i < count($elements); $i++) {
-                if (false === strpos($elements[$i], '=')) {
-                    $elName  = trim($elements[$i]);
-                    $elValue = null;
-                } else {
-                    list ($elName, $elValue) = array_map('trim', explode('=', $elements[$i]));
-                }
-                $elName = strtolower($elName);
-                if ('secure' == $elName) {
-                    $cookie['secure'] = true;
-                } elseif ('expires' == $elName) {
-                    $cookie['expires'] = str_replace('"', '', $elValue);
-                } elseif ('path' == $elName || 'domain' == $elName) {
-                    $cookie[$elName] = urldecode($elValue);
-                } else {
-                    $cookie[$elName] = $elValue;
-                }
-            }
-        }
-        $this->cookies[] = $cookie;
-    }
-
 
    /**
     * Read a part of response body encoded with chunked Transfer-Encoding
