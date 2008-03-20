@@ -37,6 +37,7 @@ class PEAR2_HTTP_Request_Adapter_PhpStream extends PEAR2_HTTP_Request_Adapter
                     'method' => $this->verb,
                     'content' => $this->body,
                     'header' => $this->buildHeaderString(),
+                    'proxy'  => $this->proxy,
                 )
             )
         );

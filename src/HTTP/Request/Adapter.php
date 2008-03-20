@@ -2,12 +2,54 @@
 abstract class PEAR2_HTTP_Request_Adapter 
 {
 
+    /**
+     * HTTP Version
+     * @var string
+     * @link http://www.w3.org/Protocols/rfc2616/rfc2616-sec3.html#sec3.1
+     */
     public $httpVersion = 'HTTP/1.1';
+
+    /**
+     * Uri to make the request too
+     * @var string
+     * @link http://www.w3.org/Protocols/rfc2616/rfc2616-sec3.html#sec3.2
+     */
     public $uri;
+
+    /**
+     * Called Method in the spec
+     * @var string
+     * @link http://www.w3.org/Protocols/rfc2616/rfc2616-sec5.html#sec5.1.1
+     */
     public $verb = 'GET';
+
+    /**
+     * Additional headers to send
+     * @var array   Header Name => Header value
+     * @link http://www.w3.org/Protocols/rfc2616/rfc2616-sec4.html#sec4.2
+     * @link http://www.w3.org/Protocols/rfc2616/rfc2616-sec4.html#sec4.5
+     * @link http://www.w3.org/Protocols/rfc2616/rfc2616-sec5.html#sec5.3
+     */
     public $headers = array();
+
+    /**
+     * Value to send as the body of the message, you need to handle the encoding
+     * @var string
+     * @link http://www.w3.org/Protocols/rfc2616/rfc2616-sec4.html#sec4.3
+     */
     public $body;
+
+    /**
+     * How long to wait until a request times out
+     * @float seconds
+     */
     public $requestTimeout = 10;
+
+    /**
+     * Full uri of the proxy server
+     * @var string
+     */
+    public $proxy = '';
 
     /**
      * HTTP Return code
@@ -16,6 +58,9 @@ abstract class PEAR2_HTTP_Request_Adapter
      */
     public $code = 100;
 
+    /**
+     * Send the specified request
+     */
     public function sendRequest() 
     {
     }
