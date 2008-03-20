@@ -83,13 +83,15 @@ class PEAR2_HTTP_Request
     {
         if (!is_null($instance) && $instance instanceof PEAR2_HTTP_Request_Adapter) {
             $this->adapter = $instance;
-        } elseif (extension_loaded('pecl_http')) {
+        } elseif (extension_loaded('http')) {
             $this->adapter = new PEAR2_HTTP_Request_Adapter_Http;
         } elseif (ini_get('allow_url_fopen') == true) {
             $this->adapter = new PEAR2_HTTP_Request_Adapter_Phpstream;
         } else {
             $this->adapter = new PEAR2_HTTP_Request_Adapter_Phpsocket;
         }
+
+        $this->adapter->setListeners($this->_listeners);
 
         if ($url) {
             $this->url = $url;

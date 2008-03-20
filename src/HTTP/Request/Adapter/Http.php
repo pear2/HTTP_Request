@@ -22,27 +22,54 @@ class PEAR2_HTTP_Request_Adapter_Http extends PEAR2_HTTP_Request_Adapter {
      * remote/local webserver using pecl http
      *
      * @link http://us2.php.net/manual/en/http.request.options.php
+     * @todo catch exceptions from HttpRequest and rethrow
+     * @todo handle Puts
      */
     public function sendRequest() 
     {
-        $info = array();
         $options = array(
-            'connecttimeout'    => $this->timeout,
-            'headers'           => $this->headers,
+            'connecttimeout'    => $this->requestTimeout,
             );
 
         // if we have any listeners register an onprogress callback
-        $options['onprogress'] = array($this,'_onprogress');
+        if (count($this->_listeners) > 0) {
+            $options['onprogress'] = array($this,'_onprogress');
+        }
+
+        $tmp = 'HTTP_METH_'.strtoupper($this->verb);
+        if (defined($tmp)) {
+            $method = constant($tmp);
+        }
+        else {
+            $method = HTTP_METH_GET;
+        }
+
+        $body = http_request($method,$this->uri->url,$this->body,$options,$info);
+        $request = new HttpRequest($this->uri->url,$method,$options);
+        $request->setHeaders($this->headers);
+        $request->setRawPostData($this->body);
+
+        $request->send();
+        $response = $request->getResponseMessage();
+
+        $details = (array)$this->uri;
+
+        $details['code'] = $request->getResponseCode();
+        $details['httpVersion'] = $response->getHttpVersion();
+
+        $headers = $response->getHeaders();
+        $cookies = $request->getResponseCookies();
 
 
-        $response = http_request($method,$this->uri,$this->body,$options,$info);
+        return new PEAR2_Http_Request_Response($details, $body, $headers, $cookies);
     }	   
 
     /**
      * Progress handler maps callback progress to listeners
      * @todo implement progress callback
+     * @todo this doesn't want to be part of the public api but has to be public to be called as a callback
      */
-    protected _onprogress($status) {
+    public function _onprogress($status) {
     }
 }
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */

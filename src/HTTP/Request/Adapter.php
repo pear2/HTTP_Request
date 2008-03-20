@@ -59,10 +59,34 @@ abstract class PEAR2_HTTP_Request_Adapter
     public $code = 100;
 
     /**
+     * Listeners from the parent
+     */
+    protected $_listeners;
+
+    /**
+     * @todo i don't like this approach
+     */
+    public function setListeners(&$listeners) {
+        $this->_listeners &= $listeners;
+    }
+
+    /**
      * Send the specified request
      */
     public function sendRequest() 
     {
+    }
+
+    /**
+     * Send a request storing the results to a file and returning headers
+     * @return array
+     * @todo create a non Implemented exception
+     */
+    public function requestToFile() 
+    {
+        throw new PEAR2_HTTP_Request_Exception(
+            'Not Implemented'
+        );
     }
 
     protected function parseResponseCode($line) 
