@@ -8,6 +8,8 @@
  */
 class PEAR2_HTTP_Request_Adapter_PhpStream extends PEAR2_HTTP_Request_Adapter 
 {
+    private $_phpErrorStr;
+
     /**
      * Throws exception if allow_url_fopen is off
      */
@@ -42,12 +44,12 @@ class PEAR2_HTTP_Request_Adapter_PhpStream extends PEAR2_HTTP_Request_Adapter
             )
         );
         
-        ini_set('track_errors', 1);
+        set_error_handler(array($this,'_errorHandler'));
         $fp = @fopen($this->uri->url, 'rb', false, $ctx);
         if (!$fp) {
             // php sucks
-            if (strpos($php_errormsg, 'HTTP/1.1 304')) {
-                ini_restore('track_errors');
+            if (strpos($this->_phpErrorStr, 'HTTP/1.1 304')) {
+                restore_error_handler();
                 $details = (array)$this->uri;
 
                 $details['code'] = '304';
@@ -55,10 +57,10 @@ class PEAR2_HTTP_Request_Adapter_PhpStream extends PEAR2_HTTP_Request_Adapter
 
                 return new PEAR2_HTTP_Request_Response($details,'',array(),array());
             }
-            ini_restore('track_errors');
+            restore_error_handler();
             throw new PEAR2_HTTP_Request_Exception('Url ' . $this->uri->url . ' could not be opened');
         } else {
-            ini_restore('track_errors');
+            restore_error_handler();
         }
 
         stream_set_timeout($fp, $this->requestTimeout);
@@ -106,6 +108,13 @@ class PEAR2_HTTP_Request_Adapter_PhpStream extends PEAR2_HTTP_Request_Adapter
             $out .= "$header: $value\r\n";
         }
         return $out;
+    }
+
+    /**
+     * This has to be public to be used as a callback but its actually private
+     */
+    public function _errorHandler($errno,$errstr) {
+        $this->_phpErrorStr = $srrstr;
     }
 }
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
