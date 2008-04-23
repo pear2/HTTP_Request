@@ -61,7 +61,7 @@ class PEAR2_HTTP_Request_Adapter_Http extends PEAR2_HTTP_Request_Adapter {
         $cookies = $request->getResponseCookies();
 
 
-        return new PEAR2_Http_Request_Response($details, $body, $headers, $cookies);
+        return new PEAR2_HTTP_Request_Response($details, $body, $headers, $cookies);
     }	   
 
     /**
