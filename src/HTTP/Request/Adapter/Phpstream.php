@@ -46,7 +46,7 @@ class PEAR2_HTTP_Request_Adapter_PhpStream extends PEAR2_HTTP_Request_Adapter
         
         set_error_handler(array($this,'_errorHandler'));
         $fp = @fopen($this->uri->url, 'rb', false, $ctx);
-        if (!$fp) {
+        if (!is_resource($fp)) {
             // php sucks
             if (strpos($this->_phpErrorStr, 'HTTP/1.1 304')) {
                 restore_error_handler();
@@ -58,7 +58,7 @@ class PEAR2_HTTP_Request_Adapter_PhpStream extends PEAR2_HTTP_Request_Adapter
                 return new PEAR2_HTTP_Request_Response($details,'',array(),array());
             }
             restore_error_handler();
-            throw new PEAR2_HTTP_Request_Exception('Url ' . $this->uri->url . ' could not be opened');
+            throw new PEAR2_HTTP_Request_Exception('Url ' . $this->uri->url . ' could not be opened (PhpStream Adapter ('.$this->_phpErrorStr.'))');
         } else {
             restore_error_handler();
         }
@@ -77,7 +77,7 @@ class PEAR2_HTTP_Request_Adapter_PhpStream extends PEAR2_HTTP_Request_Adapter
 
         $headers = $meta['wrapper_data'];
 
-        $details = (array)$this->uri;
+        $details = $this->uri->toArray();
 
         $tmp = $this->parseResponseCode($headers[0]);
         $details['code'] = $tmp['code'];

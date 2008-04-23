@@ -52,7 +52,7 @@ class PEAR2_HTTP_Request
                 break;
             case 'uri':
             case 'url':
-                $this->adapter->uri = new Net_URL2($value);
+                $this->adapter->uri = new PEAR2_HTTP_Request_Uri($value);
                 break;
             case 'body':
             case 'content':

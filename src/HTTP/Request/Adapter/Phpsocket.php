@@ -68,12 +68,12 @@ class PEAR2_HTTP_Request_Adapter_Phpsocket extends PEAR2_HTTP_Request_Adapter {
 
         $errno    = 0;
         $errstr   = '';
-        $handle   = fsockopen($this->uri->host, $this->uri->port, $errno, $errstr, 30);
-        stream_set_timeout($handle,10);
+        $handle   = @fsockopen($this->uri->host, $this->uri->port, $errno, $errstr, 30);
 
         if (!is_resource($handle)) {
-            throw new Exception($errstr,$errno);
+            throw new PEAR2_HTTP_Request_Exception("Couldn't connection to host using Phpsocket Adapter, fsockopen errors($errstr,$errno)");
         }
+        stream_set_timeout($handle,10);
 
         $this->_stream = new PEAR2_HTTP_Request_Adapter_Phpsocket_Socket($handle);
 

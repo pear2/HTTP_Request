@@ -52,7 +52,7 @@ class PEAR2_HTTP_Request_Adapter_Http extends PEAR2_HTTP_Request_Adapter {
         $request->send();
         $response = $request->getResponseMessage();
 
-        $details = (array)$this->uri;
+        $details = $this->uri->toArray();
 
         $details['code'] = $request->getResponseCode();
         $details['httpVersion'] = $response->getHttpVersion();

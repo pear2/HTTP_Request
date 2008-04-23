@@ -7,9 +7,9 @@ require_once '../src/HTTP/Request/allfiles.php';
 $url = 'http://webthumb.bluga.net/home';
 
 $adapters = array(
-	'Phpstream' => false,
+	'Phpstream' => true,
 	'Phpsocket' => false,
-	'Http' => true,
+	'Http' => false,
 	);
 
 foreach($adapters as $adapter => $status) {
