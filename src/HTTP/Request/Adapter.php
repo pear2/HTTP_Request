@@ -47,9 +47,9 @@ abstract class PEAR2_HTTP_Request_Adapter
 
     /**
      * Full uri of the proxy server
-     * @var string
+     * @var PEAR2_HTTP_Request_Uri
      */
-    public $proxy = '';
+    public $proxy = null;
 
     /**
      * HTTP Return code

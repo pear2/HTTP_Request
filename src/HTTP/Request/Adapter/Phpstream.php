@@ -32,6 +32,10 @@ class PEAR2_HTTP_Request_Adapter_PhpStream extends PEAR2_HTTP_Request_Adapter
     public function sendRequest() 
     {
 
+        $proxyurl = '';
+        if (!is_null($this->proxy)) {
+            $proxyurl = $this->proxy->url;
+        }
         // create context with proper junk
         $ctx = stream_context_create( 
             array(
@@ -39,13 +43,13 @@ class PEAR2_HTTP_Request_Adapter_PhpStream extends PEAR2_HTTP_Request_Adapter
                     'method' => $this->verb,
                     'content' => $this->body,
                     'header' => $this->buildHeaderString(),
-                    'proxy'  => $this->proxy,
+                    'proxy'  => $proxyurl,
                 )
             )
         );
         
         set_error_handler(array($this,'_errorHandler'));
-        $fp = @fopen($this->uri->url, 'rb', false, $ctx);
+        $fp = fopen($this->uri->url, 'rb', false, $ctx);
         if (!is_resource($fp)) {
             // php sucks
             if (strpos($this->_phpErrorStr, 'HTTP/1.1 304')) {
@@ -94,7 +98,7 @@ class PEAR2_HTTP_Request_Adapter_PhpStream extends PEAR2_HTTP_Request_Adapter
     }
 
     /**
-     * Buuild header String
+     * Build header String
      *
      * This method builds the header string
      * to be passed to the request.
@@ -114,7 +118,7 @@ class PEAR2_HTTP_Request_Adapter_PhpStream extends PEAR2_HTTP_Request_Adapter
      * This has to be public to be used as a callback but its actually private
      */
     public function _errorHandler($errno,$errstr) {
-        $this->_phpErrorStr = $srrstr;
+        $this->_phpErrorStr = $errstr;
     }
 }
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */

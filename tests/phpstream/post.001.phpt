@@ -9,6 +9,7 @@ $adapter = new PEAR2_HTTP_Request_Adapter_Phpstream();
 
 // this is a shared test with only the adapter being differ
 require_once dirname(__FILE__).'/../shared/post.001.php';
+?>
 --EXPECT--
 string(5) "Test
 "

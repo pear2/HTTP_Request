@@ -12,6 +12,7 @@ class PEAR2_HTTP_Request_Uri {
 			'url' => 'uri',
 			'querystring' => 'query',
 			'anchor' => 'fragment',
+			'protocol' => 'scheme',
 			);
 	protected $schemes = array(
 			'http' => 80,

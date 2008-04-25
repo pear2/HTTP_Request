@@ -4,6 +4,7 @@ $url = $testServer.'test002.php';
 $http = new PEAR2_HTTP_Request($url,$adapter);
 $http->verb = 'POST';
 $http->body = "Test\n";
+
 $response = $http->sendRequest();
 // make sure we got the correct body back
 var_dump($response->body);
