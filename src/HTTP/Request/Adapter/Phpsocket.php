@@ -65,6 +65,7 @@ class PEAR2_HTTP_Request_Adapter_Phpsocket extends PEAR2_HTTP_Request_Adapter {
     public function sendRequest() {
         $payload = $this->_buildHeaders($this->uri->path,$this->uri->host,$this->headers,strlen($this->body));
         $payload .= $this->body;
+        $this->body = '';
 
         $errno    = 0;
         $errstr   = '';
@@ -85,8 +86,8 @@ class PEAR2_HTTP_Request_Adapter_Phpsocket extends PEAR2_HTTP_Request_Adapter {
         $details['httpVersion'] = $this->httpVersion;
 
 
-        return new PEAR2_HTTP_Request_Response($details,$this->body,$this->headers,$this->cookies);
-
+        $response = new PEAR2_HTTP_Request_Response($details,$this->body,$this->headers,$this->cookies);
+        return $response;
     }
 
     /**
