@@ -184,6 +184,13 @@ class PEAR2_HTTP_Request
             }
         }
     }
+
+    /**
+     * Get the class name of the adapter that is being used
+     */
+    public function getAdapterName() {
+        return get_class($this->adapter);
+    }
 }
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 ?>
