@@ -48,6 +48,13 @@ class PEAR2_HTTP_Request_Response
         $this->headers = $headers;
         $this->cookies = $cookies;
     }
+
+    /**
+     * Return the body of the response
+     */
+    public function __toString() {
+        return $this->body;
+    }
 } 
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 ?>
