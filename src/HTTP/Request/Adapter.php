@@ -64,6 +64,12 @@ abstract class PEAR2_HTTP_Request_Adapter
     protected $_listeners;
 
     /**
+     * Parsed cookies
+     * @var array
+     */
+    public $cookies = array();
+
+    /**
      * @todo i don't like this approach
      */
     public function setListeners(&$listeners) {
@@ -133,7 +139,7 @@ abstract class PEAR2_HTTP_Request_Adapter
 
 
     /**
-     * Parse a Set-Cookie header to fill $_cookies array
+     * Parse a Set-Cookie header to fill $cookies array
      *
      * @access private
      * @param  string    value of Set-Cookie header
