@@ -111,7 +111,13 @@ abstract class PEAR2_HTTP_Request_Adapter
         }
 
         list($headername, $headervalue) = explode(':', $header, 2);
-        $headername  = strtolower($headername);
+        if (strstr($headername,'-')) {
+            list($p1,$p2) = explode('-',$headername);
+            $headername  = ucfirst(strtolower($p1)).'-'.ucfirst(strtolower($p2));
+        }
+        else {
+            $headername  = ucfirst($headername);
+        }
         $headervalue = ltrim($headervalue);
 
         if ('set-cookie' != $headername) {

@@ -44,13 +44,13 @@ class PEAR2_HTTP_Request_Adapter_Http extends PEAR2_HTTP_Request_Adapter {
             $method = HTTP_METH_GET;
         }
 
-        $body = http_request($method,$this->uri->url,$this->body,$options,$info);
         $request = new HttpRequest($this->uri->url,$method,$options);
         $request->setHeaders($this->headers);
         $request->setRawPostData($this->body);
 
         $request->send();
         $response = $request->getResponseMessage();
+        $body = $response->getBody();
 
         $details = $this->uri->toArray();
 
