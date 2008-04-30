@@ -10,6 +10,7 @@ require PEAR2_HTTP_Request_PATH . '/../../../../../Exception/trunk/src/Exception
 require PEAR2_HTTP_Request_PATH . '/../Request.php';
 require PEAR2_HTTP_Request_PATH . '/Exception.php';
 require PEAR2_HTTP_Request_PATH . '/Uri.php';
+require PEAR2_HTTP_Request_PATH . '/Headers.php';
 require PEAR2_HTTP_Request_PATH . '/Response.php';
 require PEAR2_HTTP_Request_PATH . '/Adapter.php';
 require PEAR2_HTTP_Request_PATH . '/Adapter/Phpstream.php';
