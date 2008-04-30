@@ -57,7 +57,7 @@ class PEAR2_HTTP_Request_Adapter_Http extends PEAR2_HTTP_Request_Adapter {
         $details['code'] = $request->getResponseCode();
         $details['httpVersion'] = $response->getHttpVersion();
 
-        $headers = $response->getHeaders();
+        $headers = new PEAR2_HTTP_Request_Headers($response->getHeaders());
         $cookies = $request->getResponseCookies();
 
 

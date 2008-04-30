@@ -94,7 +94,8 @@ class PEAR2_HTTP_Request_Adapter_PhpStream extends PEAR2_HTTP_Request_Adapter
             $this->processHeader($line);
         }
 
-        return new PEAR2_HTTP_Request_Response($details,$body,$this->headers,$this->cookies);
+        return new PEAR2_HTTP_Request_Response(
+            $details,$body,new PEAR2_HTTP_Request_Headers($this->headers),$this->cookies);
     }
 
     /**

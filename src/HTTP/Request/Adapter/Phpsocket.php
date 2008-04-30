@@ -86,7 +86,8 @@ class PEAR2_HTTP_Request_Adapter_Phpsocket extends PEAR2_HTTP_Request_Adapter {
         $details['httpVersion'] = $this->httpVersion;
 
 
-        $response = new PEAR2_HTTP_Request_Response($details,$this->body,$this->headers,$this->cookies);
+        $response = new PEAR2_HTTP_Request_Response(
+            $details,$this->body,new PEAR2_HTTP_Request_Headers($this->headers),$this->cookies);
         return $response;
     }
 
