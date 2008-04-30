@@ -64,7 +64,6 @@
        <file role="php" name="Phpsocket.php"/>
        <file role="php" name="Phpstream.php"/>
       </dir>
-      <file role="php" name=".DS_Store"/>
       <file role="php" name="Adapter.php"/>
       <file role="php" name="allfiles.php"/>
       <file role="php" name="Exception.php"/>
@@ -72,7 +71,6 @@
       <file role="php" name="Response.php"/>
       <file role="php" name="Uri.php"/>
      </dir>
-     <file role="php" name="CREDITS"/>
      <file role="php" name="Request.php"/>
     </dir>
    </dir>
