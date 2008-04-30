@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package version="2.1" xmlns="http://pear.php.net/dtd/package-2.1" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0     http://pear.php.net/dtd/tasks-1.0.xsd     http://pear.php.net/dtd/package-2.1     http://pear.php.net/dtd/package-2.1.xsd">
+ <name>PEAR2_HTTP_Request</name>
+ <channel>pear2.php.net</channel>
+ <summary>class to do http requests, uses a adapter based system for performing those requests
+</summary>
+ <description/>
+ <lead>
+  <name>Joshua Eichorn</name>
+  <user>jeichorn</user>
+  <email>josh@bluga.net</email>
+  <active>yes</active>
+ </lead>
+ <lead>
+  <name>David Coallier</name>
+  <user>davidc</user>
+  <email>davidc@php.net</email>
+  <active>yes</active>
+ </lead>
+ <helper>
+  <name>Richard Heyes</name>
+  <user>rheyes</user>
+  <email>richard@php.net</email>
+  <active>yes</active>
+ </helper>
+ <helper>
+  <name>Alexey Borzov</name>
+  <user>avb</user>
+  <email>borz_off@cs.msu.su</email>
+  <active>yes</active>
+ </helper>
+ <helper>
+  <name>Elizabeth Marie Smith</name>
+  <user>auroraeosrose</user>
+  <email>auroraeosrose@php.net</email>
+  <active>yes</active>
+ </helper>
+ <date>2008-04-29</date>
+ <version>
+  <release>0.1.0</release>
+  <api>0.1.0</api>
+ </version>
+ <stability>
+  <release>devel</release>
+  <api>alpha</api>
+ </stability>
+ <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
+ <notes>First attempt.
+</notes>
+ <contents>
+  <dir name="/">
+   <dir name="examples">
+    <file role="doc" name="adapter.php"/>
+    <file role="doc" name="get.php"/>
+    <file role="doc" name="head.php"/>
+    <file role="doc" name="post.php"/>
+   </dir>
+   <dir name="src" baseinstalldir="PEAR2">
+    <dir name="HTTP">
+     <dir name="Request">
+      <dir name="Adapter">
+       <file role="php" name="Curl.php"/>
+       <file role="php" name="Http.php"/>
+       <file role="php" name="Phpsocket.php"/>
+       <file role="php" name="Phpstream.php"/>
+      </dir>
+      <file role="php" name=".DS_Store"/>
+      <file role="php" name="Adapter.php"/>
+      <file role="php" name="allfiles.php"/>
+      <file role="php" name="Exception.php"/>
+      <file role="php" name="Listener.php"/>
+      <file role="php" name="Response.php"/>
+      <file role="php" name="Uri.php"/>
+     </dir>
+     <file role="php" name="CREDITS"/>
+     <file role="php" name="Request.php"/>
+    </dir>
+   </dir>
+   <dir name="tests" baseinstalldir="/">
+    <dir name="http">
+     <file role="test" name="get.001.phpt"/>
+     <file role="test" name="get.002.phpt"/>
+     <file role="test" name="post.001.phpt"/>
+    </dir>
+    <dir name="phpsocket">
+     <file role="test" name="get.001.phpt"/>
+     <file role="test" name="get.002.phpt"/>
+     <file role="test" name="post.001.phpt"/>
+    </dir>
+    <dir name="phpstream">
+     <file role="test" name="get.001.phpt"/>
+     <file role="test" name="get.002.phpt"/>
+     <file role="test" name="post.001.phpt"/>
+    </dir>
+    <dir name="shared">
+     <file role="test" name="get.001.php"/>
+     <file role="test" name="get.002.php"/>
+     <file role="test" name="post.001.php"/>
+    </dir>
+    <dir name="testFiles">
+     <file role="test" name="test001.html"/>
+     <file role="test" name="test002.php"/>
+     <file role="test" name="test003.png"/>
+    </dir>
+    <file role="test" name="_setup.php"/>
+   </dir>
+  </dir>
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>5.2.0</min>
+   </php>
+   <pearinstaller>
+    <min>2.0.0a1</min>
+   </pearinstaller>
+  </required>
+ </dependencies>
+ <phprelease/>
+</package>

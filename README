@@ -1,0 +1,1 @@
+class to do http requests, uses a adapter based system for performing those requests
