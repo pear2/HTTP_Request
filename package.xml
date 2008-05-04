@@ -4,7 +4,15 @@
  <channel>pear2.php.net</channel>
  <summary>class to do http requests, uses a adapter based system for performing those requests
 </summary>
- <description/>
+ <description>
+Please see the examples dir for basic usage
+
+Adapters are available for based on the following code and are used in this order:
+PEAR2_HTTP_Request_Adapter_Http (uses the Pecl Http class)
+PEAR2_HTTP_Request_Adapter_Curl (based on the curl extension, not complete)
+PEAR2_HTTP_Request_Adapter_Phpstream (based on the http php stream code)
+PEAR2_HTTP_Request_Adapter_Phpsocket (based on php sockets, built from PEAR1 HTTP_Request)
+</description>
  <lead>
   <name>Joshua Eichorn</name>
   <user>jeichorn</user>
@@ -35,7 +43,7 @@
   <email>auroraeosrose@php.net</email>
   <active>yes</active>
  </helper>
- <date>2008-04-29</date>
+ <date>2008-05-04</date>
  <version>
   <release>0.1.0</release>
   <api>0.1.0</api>
@@ -67,6 +75,7 @@
       <file role="php" name="Adapter.php"/>
       <file role="php" name="allfiles.php"/>
       <file role="php" name="Exception.php"/>
+      <file role="php" name="Headers.php"/>
       <file role="php" name="Listener.php"/>
       <file role="php" name="Response.php"/>
       <file role="php" name="Uri.php"/>
@@ -100,6 +109,10 @@
      <file role="test" name="test002.php"/>
      <file role="test" name="test003.png"/>
     </dir>
+    <file role="test" name="headers.001.phpt"/>
+    <file role="test" name="headers.002.phpt"/>
+    <file role="test" name="headers.003.phpt"/>
+    <file role="test" name="headers.004.phpt"/>
     <file role="test" name="_setup.php"/>
    </dir>
   </dir>
