@@ -43,7 +43,7 @@ PEAR2_HTTP_Request_Adapter_Phpsocket (based on php sockets, built from PEAR1 HTT
   <email>auroraeosrose@php.net</email>
   <active>yes</active>
  </helper>
- <date>2008-05-04</date>
+ <date>2008-05-20</date>
  <version>
   <release>0.1.0</release>
   <api>0.1.0</api>
