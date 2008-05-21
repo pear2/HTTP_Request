@@ -2,7 +2,7 @@
 //require_once 'PEAR2/HTTP/Request/allfiles.php';
 
 // to run from svn checkout
-require_once '../src/HTTP/Request/allfiles.php';
+require_once '../../autoload.php';
 
 $request = new PEAR2_HTTP_Request('http://pear.php.net/');
 $request->verb = 'HEAD';
