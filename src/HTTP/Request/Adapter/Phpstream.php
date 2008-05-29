@@ -6,7 +6,7 @@
  *
  * @version $Revision: 1.52 $
  */
-class PEAR2_HTTP_Request_Adapter_PhpStream extends PEAR2_HTTP_Request_Adapter 
+class PEAR2_HTTP_Request_Adapter_PhpStream extends PEAR2_HTTP_Request_Adapter
 {
     private $_phpErrorStr;
 
@@ -29,7 +29,7 @@ class PEAR2_HTTP_Request_Adapter_PhpStream extends PEAR2_HTTP_Request_Adapter
      * This function sends the actual request to the
      * remote/local webserver using php streams.
      */
-    public function sendRequest() 
+    public function sendRequest()
     {
 
         $proxyurl = '';
@@ -37,7 +37,7 @@ class PEAR2_HTTP_Request_Adapter_PhpStream extends PEAR2_HTTP_Request_Adapter
             $proxyurl = $this->proxy->url;
         }
         // create context with proper junk
-        $ctx = stream_context_create( 
+        $ctx = stream_context_create(
             array(
                 $this->uri->protocol => array(
                     'method' => $this->verb,
@@ -47,14 +47,14 @@ class PEAR2_HTTP_Request_Adapter_PhpStream extends PEAR2_HTTP_Request_Adapter
                 )
             )
         );
-        
+
         set_error_handler(array($this,'_errorHandler'));
         $fp = fopen($this->uri->url, 'rb', false, $ctx);
         if (!is_resource($fp)) {
             // php sucks
             if (strpos($this->_phpErrorStr, 'HTTP/1.1 304')) {
                 restore_error_handler();
-                $details = (array)$this->uri;
+                $details = $this->uri->toArray();
 
                 $details['code'] = '304';
                 $details['httpVersion'] = '1.1';
@@ -106,7 +106,7 @@ class PEAR2_HTTP_Request_Adapter_PhpStream extends PEAR2_HTTP_Request_Adapter
      *
      * @return string $out  The headers
      */
-    private function buildHeaderString() 
+    private function buildHeaderString()
     {
         $out = '';
         foreach($this->headers as $header => $value) {
