@@ -84,15 +84,16 @@ abstract class PEAR2_HTTP_Request_Adapter
     }
 
     /**
-     * Send a request storing the results to a file and returning headers
-     * @return array
-     * @todo create a non Implemented exception
+     * Send a request storing the results to a file and return a response class with no body
+     *
+     * Base Adapter contains a non efficient baseline method
      */
-    public function requestToFile() 
+    public function requestToFile($file) 
     {
-        throw new PEAR2_HTTP_Request_Exception(
-            'Not Implemented'
-        );
+        $response = $this->sendRequest();
+
+        file_put_contents($file,$response->body);
+        unset($response->body);
     }
 
     protected function parseResponseCode($line) 

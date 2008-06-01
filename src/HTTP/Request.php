@@ -104,12 +104,22 @@ class PEAR2_HTTP_Request
     /**
      * asks for a response class from the adapter
      *
-     * @param  string $class adapter to use
-     * @return mixed  The response from the adapter
+     * @return PEAR2_HTTP_Request_Response
      */
     public function sendRequest() 
     {
         $response = $this->adapter->sendRequest();
+        return $response;
+    }
+
+    /**
+     * Sends a request storing the output to a file
+     *
+     * @param  string $file File to store too
+     * @return PEAR2_HTTP_Request_Response with no body
+     */
+    public function requestToFile($file) {
+        $response = $this->adapter->requestToFile($file);
         return $response;
     }
 
