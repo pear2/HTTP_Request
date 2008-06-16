@@ -61,7 +61,7 @@ abstract class PEAR2_HTTP_Request_Adapter
     /**
      * Listeners from the parent
      */
-    protected $_listeners;
+    protected $_listeners = array();
 
     /**
      * Parsed cookies
@@ -94,6 +94,8 @@ abstract class PEAR2_HTTP_Request_Adapter
 
         file_put_contents($file,$response->body);
         unset($response->body);
+
+        return $response;
     }
 
     protected function parseResponseCode($line) 
