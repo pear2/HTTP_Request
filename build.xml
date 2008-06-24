@@ -4,9 +4,11 @@
 	</target>
 
 	<target name="phpcs">
-		<exec
-			command="phpcs --report=xml --standard=PEAR ./src > &quot;./build/phpcs.log&quot;"
-	/>
+		<!-- 
+		<exec command="phpcs --report=xml --standard=PEAR ./src > &quot;./build/phpcs.log&quot;" />
+		If we had an reporter for phpcs we could use this an in theory get graphs and stuff
+		--> 
+		<exec command="phpcs --report=full --standard=PEAR ./src > &quot;./build/phpcs.txt&quot;" />
 
 	</target>
 
