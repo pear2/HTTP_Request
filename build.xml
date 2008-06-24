@@ -1,0 +1,15 @@
+<project name="PEAR2::HTTP_Request" default="build" basedir=".">
+	<target name="init">
+		<mkdir dir="./build" />
+	</target>
+
+	<target name="phpcs">
+		<exec
+			command="phpcs --report=xml --standard=PEAR ./src > &quot;./build/phpcs.log&quot;"
+	/>
+
+	</target>
+
+	<target name="build" depends="init,phpcs">
+	</target>
+</project>
