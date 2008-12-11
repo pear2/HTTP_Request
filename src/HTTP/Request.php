@@ -86,6 +86,8 @@ class PEAR2_HTTP_Request
     {
         if (!is_null($instance) && $instance instanceof PEAR2_HTTP_Request_Adapter) {
             $this->adapter = $instance;
+        } elseif (extension_loaded('curl')) {
+            $this->adapter = new PEAR2_HTTP_Request_Adapter_Curl;
         } elseif (extension_loaded('http')) {
             $this->adapter = new PEAR2_HTTP_Request_Adapter_Http;
         } elseif (ini_get('allow_url_fopen') == true) {
