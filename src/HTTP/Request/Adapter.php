@@ -43,7 +43,7 @@ abstract class PEAR2_HTTP_Request_Adapter
      * How long to wait until a request times out
      * @float seconds
      */
-    public $requestTimeout = 10;
+    public $requestTimeout = 100;
 
     /**
      * Full uri of the proxy server
@@ -56,7 +56,7 @@ abstract class PEAR2_HTTP_Request_Adapter
      * @var string
      * @link http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
      */
-    public $code = 100;
+    public $code = 0;
 
     /**
      * Listeners from the parent
