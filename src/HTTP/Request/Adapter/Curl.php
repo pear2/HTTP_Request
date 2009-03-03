@@ -45,9 +45,17 @@ class PEAR2_HTTP_Request_Adapter_Curl extends PEAR2_HTTP_Request_Adapter {
         // follow redirects ???
         // curl_setopt($this->curl,CURLOPT_FOLLOWLOCATION,???);
 
-        // set http version
-        // curl_setopt($this->curl,CURLOPT_HTTP_VERSION,) // is it important to force it???
-        // CURL_HTTP_VERSION_NONE  (default, lets CURL decide which version to use), CURL_HTTP_VERSION_1_0  (forces HTTP/1.0), or CURL_HTTP_VERSION_1_1  (forces HTTP/1.1). 
+        // set http version (currently we are only letting you force 1.0 otherwise we let curl auto determine
+        switch(strtolower($this->httpVersion))
+        {
+            case 'http/1.0':
+            curl_setopt($this->curl,CURLOPT_HTTP_VERSION,CURL_HTTP_VERSION_1_0);
+            break;
+            case 'http/1.1':
+            default:
+            curl_setopt($this->curl,CURLOPT_HTTP_VERSION,CURL_HTTP_VERSION_NONE);
+            break;
+        }
         
         // http verb
         if (strtoupper($this->verb) == 'PUT') {

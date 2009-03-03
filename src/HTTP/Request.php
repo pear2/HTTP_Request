@@ -68,6 +68,7 @@ class PEAR2_HTTP_Request
                 break;
             case 'requestTimeout':
                 $this->adapter->$name = (int)$value;
+                break;
             case 'proxy':
                 $this->adapter->$name = new PEAR2_HTTP_Request_Uri($value);
                 break;
