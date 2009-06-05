@@ -1,20 +1,19 @@
 <?php
-class PEAR2_HTTP_Request_Adapter_Http extends PEAR2_HTTP_Request_Adapter {
+class PEAR2_HTTP_Request_Adapter_Http extends PEAR2_HTTP_Request_Adapter
+{
 
-	/**
-	 * Throws exception if allow_url_fopen is off
-	 */
+    /**
+     * Throws exception if allow_url_fopen is off
+     */
     public function __construct()
-	{
+    {
         if (!extension_loaded('http')) {
-	        throw new PEAR2_HTTP_Request_Exception(
-		        'The http extension must be loaded in order to use the Peclhttp adapter'
-			);
-		}
-	}
-
-
-	
+            throw new PEAR2_HTTP_Request_Exception(
+                'The http extension must be loaded in order to use the Peclhttp adapter'
+            );
+        }
+    }
+    
     /**
      * Send the request
      *
@@ -29,7 +28,7 @@ class PEAR2_HTTP_Request_Adapter_Http extends PEAR2_HTTP_Request_Adapter {
     {
         $options = array(
             'connecttimeout'    => $this->requestTimeout,
-            );
+        );
 
         // if we have any listeners register an onprogress callback
         if (count($this->_listeners) > 0) {
@@ -62,7 +61,7 @@ class PEAR2_HTTP_Request_Adapter_Http extends PEAR2_HTTP_Request_Adapter {
 
 
         return new PEAR2_HTTP_Request_Response($details, $body, $headers, $cookies);
-    }	   
+    }      
 
     /**
      * Progress handler maps callback progress to listeners
