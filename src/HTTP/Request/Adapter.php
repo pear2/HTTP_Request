@@ -72,7 +72,8 @@ abstract class PEAR2_HTTP_Request_Adapter
     /**
      * @todo i don't like this approach
      */
-    public function setListeners(&$listeners) {
+    public function setListeners(&$listeners)
+    {
         $this->_listeners &= $listeners;
     }
 
