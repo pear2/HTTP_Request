@@ -121,7 +121,8 @@ class PEAR2_HTTP_Request
      * @param  string $file File to store too
      * @return PEAR2_HTTP_Request_Response with no body
      */
-    public function requestToFile($file) {
+    public function requestToFile($file)
+    {
         $response = $this->adapter->requestToFile($file);
         return $response;
     }
@@ -157,9 +158,9 @@ class PEAR2_HTTP_Request
      * @param  PEAR2_HTTP_Request_Listener $listener  The listener object
      * @return boolean Whether object is a listener or not
      */
-    public function attach(PEAR2_HTTP_Request_Listener &$listener)
+    public function attach(PEAR2_HTTP_Request_Listener $listener)
     {
-        $this->_listeners[$listener->getId()] =& $listener;
+        $this->_listeners[$listener->getId()] = $listener;
         return true;
     }
 
@@ -172,7 +173,7 @@ class PEAR2_HTTP_Request
      * @param  PEAR2_HTTP_Request_Listener $listener   The listener
      * @return bool true
      */
-    public function detach(PEAR2_HTTP_Request_Listener &$listener)
+    public function detach(PEAR2_HTTP_Request_Listener $listener)
     {
         if (isset($this->_listeners[$listener->getId()])) {
             $this->_listeners[$listener->getId()] = null;
@@ -204,7 +205,8 @@ class PEAR2_HTTP_Request
     /**
      * Get the class name of the adapter that is being used
      */
-    public function getAdapterName() {
+    public function getAdapterName()
+    {
         return get_class($this->adapter);
     }
 }
