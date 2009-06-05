@@ -1,5 +1,6 @@
 <?php
-class PEAR2_HTTP_Request_Adapter_Curl extends PEAR2_HTTP_Request_Adapter {
+class PEAR2_HTTP_Request_Adapter_Curl extends PEAR2_HTTP_Request_Adapter
+{
 
     protected $curl = false;
     protected $fp = false;
@@ -11,7 +12,8 @@ class PEAR2_HTTP_Request_Adapter_Curl extends PEAR2_HTTP_Request_Adapter {
         return $this->_sendRequest();
     }
 
-    public function requestToFile($file) {
+    public function requestToFile($file)
+    {
         $this->_setupRequest();
 
         $this->fp = fopen($file,'w');
@@ -79,7 +81,8 @@ class PEAR2_HTTP_Request_Adapter_Curl extends PEAR2_HTTP_Request_Adapter {
         }
 	}
 
-    protected function _sendRequest() {
+    protected function _sendRequest()
+    {
         $body = curl_exec($this->curl);
 
         if ($this->fp !== false) {
@@ -98,7 +101,8 @@ class PEAR2_HTTP_Request_Adapter_Curl extends PEAR2_HTTP_Request_Adapter {
         return new PEAR2_HTTP_Request_Response($details, $body, $headers, $cookies);
     }
 
-    protected function _headerCallback($curl,$data) {
+    protected function _headerCallback($curl,$data)
+    {
         $this->processHeader(trim($data));
         return strlen($data);
     }
