@@ -1,37 +1,43 @@
 <?php
-class PEAR2_HTTP_Request_Adapter_Phpsocket_Socket {
-        public $lineLength = 2048;
-        private $_handle;
+class PEAR2_HTTP_Request_Adapter_Phpsocket_Socket
+{
+    public $lineLength = 2048;
+    private $_handle;
 
-        public function __construct($handle) {
-                $this->_handle = $handle;
-        }
+    public function __construct($handle)
+    {
+        $this->_handle = $handle;
+    }
 
-        public function readLine() {
-                $line = '';
-                while(!$this->eof()) {
-                        $line .= @fgets($this->_handle, $this->lineLength);
-                        if (substr($line, -1) == "\n") {
-                                return rtrim($line, "\r\n");
-                        }
-                }
-                return false;
+    public function readLine()
+    {
+        $line = '';
+        while(!$this->eof()) {
+            $line .= @fgets($this->_handle, $this->lineLength);
+            if (substr($line, -1) == "\n") {
+                return rtrim($line, "\r\n");
+            }
         }
+        return false;
+    }
 
-        public function read($size) {
-                if ($this->eof()) {
-                        return false;
-                }
-                return @fread($this->_handle,$size);
+    public function read($size)
+    {
+        if ($this->eof()) {
+            return false;
         }
+        return @fread($this->_handle,$size);
+    }
 
-        public function write($payload) {
-                return fwrite($this->_handle,$payload,strlen($payload));
-        }
+    public function write($payload)
+    {
+        return fwrite($this->_handle,$payload,strlen($payload));
+    }
 
-        public function eof() {
-                return feof($this->_handle);
-        }
+    public function eof()
+    {
+        return feof($this->_handle);
+    }
 }
 
 /**
@@ -42,9 +48,8 @@ class PEAR2_HTTP_Request_Adapter_Phpsocket_Socket {
  *
  * @version $Revision: 1.52 $
  */
-class PEAR2_HTTP_Request_Adapter_Phpsocket extends PEAR2_HTTP_Request_Adapter {
-
-    
+class PEAR2_HTTP_Request_Adapter_Phpsocket extends PEAR2_HTTP_Request_Adapter
+{   
     /**
      * Used by _readChunked(): remaining length of the current chunk
      * @var string
@@ -62,7 +67,8 @@ class PEAR2_HTTP_Request_Adapter_Phpsocket extends PEAR2_HTTP_Request_Adapter {
      */
     private $_stream;
 
-    public function sendRequest() {
+    public function sendRequest()
+    {
         $payload = $this->_buildHeaders($this->uri->path,$this->uri->host,$this->headers,strlen($this->body));
         $payload .= $this->body;
         $this->body = '';
@@ -99,78 +105,78 @@ class PEAR2_HTTP_Request_Adapter_Phpsocket extends PEAR2_HTTP_Request_Adapter {
      *
      * @access public
      * @param  bool      Whether to store response body in object property, set
-     *                   this to false if downloading a LARGE file and using a Listener.
-     *                   This is assumed to be true if body is gzip-encoded.
+     *           this to false if downloading a LARGE file and using a Listener.
+     *           This is assumed to be true if body is gzip-encoded.
      * @param  bool      Whether the response can actually have a message-body.
-     *                   Will be set to false for HEAD requests.
+     *           Will be set to false for HEAD requests.
      * @throws Exception
      * @return boolean     true on success
      */
     public function parse($saveBody = true, $canHaveBody = true)
     {
-        do {
-            $line = $this->_stream->readLine();
-            $code = $this->parseResponseCode($line);
-            $this->httpVersion = 'HTTP/' . $code['httpVersion'];
-            $this->code     = $code['code'];
+    do {
+        $line = $this->_stream->readLine();
+        $code = $this->parseResponseCode($line);
+        $this->httpVersion = 'HTTP/' . $code['httpVersion'];
+        $this->code     = $code['code'];
 
-            while ('' !== ($header = $this->_stream->readLine())) {
-                $this->processHeader($header);
-            }
-        } while ($this->code == 100);
+        while ('' !== ($header = $this->_stream->readLine())) {
+            $this->processHeader($header);
+        }
+    } while ($this->code == 100);
 
-        // RFC 2616, section 4.4:
-        // 1. Any response message which "MUST NOT" include a message-body ... 
-        // is always terminated by the first empty line after the header fields 
-        // 3. ... If a message is received with both a
-        // Transfer-Encoding header field and a Content-Length header field,
-        // the latter MUST be ignored.
-        $canHaveBody = $canHaveBody && $this->code >= 200 && 
-                       $this->code != 204 && $this->code != 304;
+    // RFC 2616, section 4.4:
+    // 1. Any response message which "MUST NOT" include a message-body ... 
+    // is always terminated by the first empty line after the header fields 
+    // 3. ... If a message is received with both a
+    // Transfer-Encoding header field and a Content-Length header field,
+    // the latter MUST be ignored.
+    $canHaveBody = $canHaveBody && $this->code >= 200 && 
+               $this->code != 204 && $this->code != 304;
 
-        // If response body is present, read it and decode
-        $chunked = isset($this->headers['transfer-encoding']) && ('chunked' == $this->headers['transfer-encoding']);
-        $gzipped = isset($this->headers['content-encoding']) && ('gzip' == $this->headers['content-encoding']);
-        $hasBody = false;
-        if ($canHaveBody && ($chunked || !isset($this->headers['content-length']) || 
-                0 != $this->headers['content-length']))
-        {
-            if ($chunked || !isset($this->headers['content-length'])) {
-                $this->_toRead = null;
+    // If response body is present, read it and decode
+    $chunked = isset($this->headers['transfer-encoding']) && ('chunked' == $this->headers['transfer-encoding']);
+    $gzipped = isset($this->headers['content-encoding']) && ('gzip' == $this->headers['content-encoding']);
+    $hasBody = false;
+    if ($canHaveBody && ($chunked || !isset($this->headers['content-length'])
+        || 0 != $this->headers['content-length'])) {
+        if ($chunked || !isset($this->headers['content-length'])) {
+            $this->_toRead = null;
+        } else {
+            $this->_toRead = $this->headers['content-length'];
+        }
+        while (!$this->_stream->eof() && (is_null($this->_toRead) || $this->_toRead > 0)) {
+            if ($chunked) {
+                $data = $this->_readChunked();
+            } elseif (is_null($this->_toRead)) {
+                $data = $this->_stream->read(4096);
             } else {
-                $this->_toRead = $this->headers['content-length'];
+                $data = $this->_stream->read(min(4096, $this->_toRead));
+                $this->_toRead -= strlen($data);
             }
-            while (!$this->_stream->eof() && (is_null($this->_toRead) || $this->_toRead > 0)) {
-                if ($chunked) {
-                    $data = $this->_readChunked();
-                } elseif (is_null($this->_toRead)) {
-                    $data = $this->_stream->read(4096);
-                } else {
-                    $data = $this->_stream->read(min(4096, $this->_toRead));
-                    $this->_toRead -= strlen($data);
-                }
-                if ($data == '') {
-                    break;
-                } else {
-                    $hasBody = true;
-                    if ($saveBody || $gzipped) {
-                        $this->body .= $data;
-                    }
+            if ($data == '') {
+                break;
+            } else {
+                $hasBody = true;
+                if ($saveBody || $gzipped) {
+                    $this->body .= $data;
                 }
             }
         }
+    }
 
-        if ($hasBody) {
-            // Uncompress the body if needed
-            if ($gzipped) {
-                $body = $this->_decodeGzip($this->body);
-                if (PEAR::isError($body)) {
-                    return $body;
-                }
-                $this->body = $body;
+    if ($hasBody) {
+        // Uncompress the body if needed
+        if ($gzipped) {
+            $body = $this->_decodeGzip($this->body);
+            // FIXME: PEAR::isError?!?!?!
+            if (PEAR::isError($body)) {
+                return $body;
             }
+            $this->body = $body;
         }
-        return true;
+    }
+    return true;
     }
 
    /**
@@ -225,7 +231,7 @@ class PEAR2_HTTP_Request_Adapter_Phpsocket extends PEAR2_HTTP_Request_Adapter {
         if ($method != 8) {
             throw new PEAR2_HTTP_Request_Exception('_decodeGzip(): unknown compression method');
         }
-        
+
         $flags = ord(substr($data, 3, 1));
 
         if ($flags & 224) {
@@ -239,7 +245,7 @@ class PEAR2_HTTP_Request_Adapter_Phpsocket extends PEAR2_HTTP_Request_Adapter {
             if ($length - $headerLength - 2 < 8) {
                 throw new PEAR2_HTTP_Request_Exception('_decodeGzip(): data too short');
             }
-            
+        
             $extraLength = unpack('v', substr($data, 10, 2));
             if ($length - $headerLength - 2 - $extraLength[1] < 8) {
                 throw new PEAR2_HTTP_Request_Exception('_decodeGzip(): data too short');
@@ -298,7 +304,8 @@ class PEAR2_HTTP_Request_Adapter_Phpsocket extends PEAR2_HTTP_Request_Adapter {
         return $unpacked;
     }
 
-    private function _buildHeaders($path, $host, $headers,$bodySize) {
+    private function _buildHeaders($path, $host, $headers,$bodySize)
+    {
         $httpRequest  = "$this->verb $path $this->httpVersion\r\n";
         $httpRequest .= "Host: $host\r\n";
         foreach($headers as $key => $value) {
