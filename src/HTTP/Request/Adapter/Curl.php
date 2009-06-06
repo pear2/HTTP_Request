@@ -51,12 +51,12 @@ class PEAR2_HTTP_Request_Adapter_Curl extends PEAR2_HTTP_Request_Adapter
         switch(strtolower($this->httpVersion))
         {
             case 'http/1.0':
-            curl_setopt($this->curl,CURLOPT_HTTP_VERSION,CURL_HTTP_VERSION_1_0);
-            break;
+                curl_setopt($this->curl,CURLOPT_HTTP_VERSION,CURL_HTTP_VERSION_1_0);
+                break;
             case 'http/1.1':
             default:
-            curl_setopt($this->curl,CURLOPT_HTTP_VERSION,CURL_HTTP_VERSION_NONE);
-            break;
+                curl_setopt($this->curl,CURLOPT_HTTP_VERSION,CURL_HTTP_VERSION_NONE);
+                break;
         }
         
         // http verb
@@ -79,7 +79,7 @@ class PEAR2_HTTP_Request_Adapter_Curl extends PEAR2_HTTP_Request_Adapter
         if (!empty($this->body)) {
             curl_setopt($this->curl,CURLOPT_POSTFIELDS,$this->body);
         }
-	}
+    }
 
     protected function _sendRequest()
     {
