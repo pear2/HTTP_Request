@@ -193,5 +193,14 @@ abstract class PEAR2_HTTP_Request_Adapter
         }
         return $cookie;
     }
+
+    protected function _notify($event, $data = null)
+    {
+        if (!empty($this->_listeners)) {
+            foreach (array_keys($this->_listeners) as $id) {
+                $this->_listeners[$id]->update($this, $event, $data);
+            }
+        }
+    }
 }
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */

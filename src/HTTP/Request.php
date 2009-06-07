@@ -161,6 +161,7 @@ class PEAR2_HTTP_Request
     public function attach(PEAR2_HTTP_Request_Listener $listener)
     {
         $this->_listeners[$listener->getId()] = $listener;
+        $this->adapter->setListeners($this->_listeners);
         return true;
     }
 
@@ -178,6 +179,7 @@ class PEAR2_HTTP_Request
         if (isset($this->_listeners[$listener->getId()])) {
             $this->_listeners[$listener->getId()] = null;
         }
+        $this->adapter->setListeners($this->_listeners);
 
         return true;
     }

@@ -1,7 +1,8 @@
 <?php
 class PEAR2_HTTP_Request_Adapter_Http extends PEAR2_HTTP_Request_Adapter
 {
-
+    protected $request;
+    protected $sentFilesize = false;
     /**
      * Throws exception if allow_url_fopen is off
      */
@@ -43,9 +44,11 @@ class PEAR2_HTTP_Request_Adapter_Http extends PEAR2_HTTP_Request_Adapter
             $method = HTTP_METH_GET;
         }
 
-        $request = new HttpRequest($this->uri->url,$method,$options);
+        $this->request = $request = new HttpRequest($this->uri->url, $method, $options);
         $request->setHeaders($this->headers);
-        $request->setRawPostData($this->body);
+        if ($this->body) {
+            $request->setRawPostData($this->body);
+        }
 
         $request->send();
         $response = $request->getResponseMessage();
@@ -68,7 +71,15 @@ class PEAR2_HTTP_Request_Adapter_Http extends PEAR2_HTTP_Request_Adapter
      * @todo implement progress callback
      * @todo this doesn't want to be part of the public api but has to be public to be called as a callback
      */
-    public function _onprogress($status) {
+    public function _onprogress($status)
+    {
+        $dltotal = $status['dltotal'];
+        $dlnow = $status['dlnow'];
+
+        // pecl http kind of sucks, no way to get the http response code until after the
+        // callback completes...
+        $this->_notify('filesize', $dltotal);
+        $this->_notify('downloadprogress', $dlnow);
     }
 }
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */

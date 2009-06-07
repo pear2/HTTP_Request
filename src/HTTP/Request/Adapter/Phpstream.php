@@ -36,33 +36,28 @@ class PEAR2_HTTP_Request_Adapter_PhpStream extends PEAR2_HTTP_Request_Adapter
         if (!is_null($this->proxy)) {
             $proxyurl = $this->proxy->url;
         }
-        // create context with proper junk
-        $ctx = stream_context_create(
-            array(
+        $info = array(
                 $this->uri->protocol => array(
                     'method' => $this->verb,
                     'content' => $this->body,
                     'header' => $this->buildHeaderString(),
                     'proxy'  => $proxyurl,
+                    'ignore_errors' => true,
+                    'max_redirects' => 3,
                 )
-            )
+            );
+        // create context with proper junk
+        $ctx = stream_context_create(
+            $info
         );
+        if (count($this->_listeners)) {
+            stream_context_set_params($ctx, array('notification' => array($this, 'streamNotifyCallback')));
+        }
 
-        set_error_handler(array($this,'_errorHandler'));
         $fp = fopen($this->uri->url, 'rb', false, $ctx);
         if (!is_resource($fp)) {
-            // php sucks
-            if (strpos($this->_phpErrorStr, 'HTTP/1.1 304')) {
-                restore_error_handler();
-                $details = $this->uri->toArray();
-
-                $details['code'] = '304';
-                $details['httpVersion'] = '1.1';
-
-                return new PEAR2_HTTP_Request_Response($details,'',array(),array());
-            }
-            restore_error_handler();
-            throw new PEAR2_HTTP_Request_Exception('Url ' . $this->uri->url . ' could not be opened (PhpStream Adapter ('.$this->_phpErrorStr.'))');
+            throw new PEAR2_HTTP_Request_Exception('Url ' . $this->uri->url .
+                            ' could not be opened (PhpStream Adapter)');
         } else {
             restore_error_handler();
         }
@@ -120,6 +115,43 @@ class PEAR2_HTTP_Request_Adapter_PhpStream extends PEAR2_HTTP_Request_Adapter
      */
     public function _errorHandler($errno,$errstr) {
         $this->_phpErrorStr = $errstr;
+    }
+
+    public function streamNotifyCallback($notification_code, $severity, $message, $message_code,
+                                         $bytes_transferred, $bytes_max)
+    {
+        switch($notification_code) {
+            case STREAM_NOTIFY_RESOLVE:
+            case STREAM_NOTIFY_AUTH_REQUIRED:
+            case STREAM_NOTIFY_FAILURE:
+            case STREAM_NOTIFY_AUTH_RESULT:
+                /* Ignore */
+                break;
+    
+            case STREAM_NOTIFY_COMPLETED:
+                $this->_notify('disconnect');
+                break;
+
+            case STREAM_NOTIFY_REDIRECTED:
+                $this->_notify('redirect', $message);
+                break;
+    
+            case STREAM_NOTIFY_CONNECT:
+                $this->_notify('connect');
+                break;
+    
+            case STREAM_NOTIFY_FILE_SIZE_IS:
+                $this->_notify('filesize', $bytes_max);
+                break;
+    
+            case STREAM_NOTIFY_MIME_TYPE_IS:
+                $this->_notify('mime-type', $message);
+                break;
+    
+            case STREAM_NOTIFY_PROGRESS:
+                $this->_notify('downloadprogress', $bytes_transferred);
+                break;
+            }
     }
 }
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */

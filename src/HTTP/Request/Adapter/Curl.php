@@ -1,6 +1,8 @@
 <?php
 class PEAR2_HTTP_Request_Adapter_Curl extends PEAR2_HTTP_Request_Adapter
 {
+    static public $whichOne;
+    protected $sentFilesize = false;
 
     protected $curl = false;
     protected $fp = false;
@@ -36,13 +38,10 @@ class PEAR2_HTTP_Request_Adapter_Curl extends PEAR2_HTTP_Request_Adapter
         curl_setopt($this->curl,CURLOPT_TIMEOUT,$this->requestTimeout);
 
         // progress callback
-        // magical breakage the array becomes an int(0) somewhere along the line, we will ignore
-        // this for now
-        /*
-		if (count($this->_listeners) > 0) {
-            throw new Exception("Progress callback not implmented for curl yet");
+        if (count($this->_listeners) > 0) {
+            curl_setopt($this->curl, CURLOPT_PROGRESSFUNCTION, array($this, 'progressCallback'));
+            curl_setopt($this->curl, CURLOPT_NOPROGRESS, false);
         }
-         */
 
         // follow redirects ???
         // curl_setopt($this->curl,CURLOPT_FOLLOWLOCATION,???);
@@ -72,6 +71,10 @@ class PEAR2_HTTP_Request_Adapter_Curl extends PEAR2_HTTP_Request_Adapter
         curl_setopt($this->curl,CURLOPT_BINARYTRANSFER,true);
         curl_setopt($this->curl,CURLOPT_RETURNTRANSFER,true);
 
+        if (!is_null($this->proxy)) {
+            curl_setopt($this->curl, CURLOPT_PROXY, $this->proxy->url);
+        }
+
         // setup a callback to handle header info
         curl_setopt($this->curl,CURLOPT_HEADERFUNCTION,array($this,'_headerCallback'));
 
@@ -84,6 +87,7 @@ class PEAR2_HTTP_Request_Adapter_Curl extends PEAR2_HTTP_Request_Adapter
     protected function _sendRequest()
     {
         $body = curl_exec($this->curl);
+        $this->sentFilesize = false;
 
         if ($this->fp !== false) {
             fclose($this->fp);
@@ -105,6 +109,24 @@ class PEAR2_HTTP_Request_Adapter_Curl extends PEAR2_HTTP_Request_Adapter
     {
         $this->processHeader(trim($data));
         return strlen($data);
+    }
+
+    function progressCallback($dltotal, $dlnow, $ultotal, $ulnow)
+    {
+        $code = curl_getinfo($this->curl, CURLINFO_HTTP_CODE);
+        if ($code > 200) {
+            return;
+        }
+        if (!$this->sentFilesize) {
+            $this->sentFilesize = true;
+            $this->_notify('connect');
+            $content_type = curl_getinfo($this->curl, CURLINFO_CONTENT_TYPE);
+            if ($content_type) {
+                $this->_notify('mime-type', $content_type);
+            }
+            $this->_notify('filesize', $dltotal);
+        }
+        $this->_notify('downloadprogress', $dlnow);
     }
 }
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
