@@ -124,8 +124,7 @@ abstract class PEAR2_HTTP_Request_Adapter
         if (strstr($headername,'-')) {
             list($p1,$p2) = explode('-',$headername);
             $headername  = ucfirst(strtolower($p1)).'-'.ucfirst(strtolower($p2));
-        }
-        else {
+        } else {
             $headername  = ucfirst($headername);
         }
         $headervalue = ltrim($headervalue);

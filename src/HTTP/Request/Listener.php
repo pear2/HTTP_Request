@@ -96,7 +96,7 @@ class PEAR2_HTTP_Request_Listener
     *
     * @access   public
     * @param    object  an object the listener is attached to Is that even used?
-    * @param    string  Event name
+    * @param    string  Event name - connect|sentRequest|disconnect|gotHeaders|gzTick|tick|gotBody
     * @param    mixed   Additional data
     * @abstract
     */
