@@ -81,7 +81,8 @@ class PEAR2_HTTP_Request
     /**
      * sets up the adapter
      *
-     * @param  string $class adapter to use
+     * @param string                     $url      URL for this request
+     * @param PEAR2_HTTP_Request_Adapter $instance The adapter to use
      */
     public function __construct($url = null, $instance = null) 
     {
