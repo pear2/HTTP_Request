@@ -1,5 +1,7 @@
 <?php
-class PEAR2_HTTP_Request_Adapter_Filesystem extends PEAR2_HTTP_Request_Adapter
+namespace pear2\HTTP\Request\Adapter;
+use pear2\HTTP\Request;
+class Filesystem extends Request\Adapter
 {
     public static $requestMap;
     
@@ -7,7 +9,7 @@ class PEAR2_HTTP_Request_Adapter_Filesystem extends PEAR2_HTTP_Request_Adapter
      * Add a local filesystem directory, and map it to a url base.
      * 
      * <code>
-     * PEAR2_HTTP_Request_Adapter_Filesystem::addDirectory(
+     * pear2\HTTP\Request\Adapter\Filesystem::addDirectory(
      *                  '/var/www/html/pear2.php.net',
      *                  'http://pear2.php.net/');
      * </code>
@@ -42,7 +44,7 @@ class PEAR2_HTTP_Request_Adapter_Filesystem extends PEAR2_HTTP_Request_Adapter
             }
         }
         if (!$actualfile) {
-            throw new Exception('URL ' . $uri . ' is not in the request map, setup is needed');
+            throw new Request\Exception('URL ' . $uri . ' is not in the request map, setup is needed');
         }
         $details = $this->uri->toArray();
         if (!file_exists($actualfile)) {
@@ -53,7 +55,7 @@ class PEAR2_HTTP_Request_Adapter_Filesystem extends PEAR2_HTTP_Request_Adapter
             $details['code'] = '200';
         }
         // $this->verb is GET/POST/etc.
-        // $this->uri is PEAR2_HTTP_Request_Uri
+        // $this->uri is pear2\HTTP\Request\Uri
         // $this->headers is array of headers
         // $this->body is request body
 
@@ -78,6 +80,6 @@ class PEAR2_HTTP_Request_Adapter_Filesystem extends PEAR2_HTTP_Request_Adapter
             }
         }
 
-        return new PEAR2_HTTP_Request_Response($details, $body, $headers, $cookies);
+        return new Request\Response($details, $body, $headers, $cookies);
     }
 }

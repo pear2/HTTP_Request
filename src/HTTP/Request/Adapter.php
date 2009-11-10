@@ -1,5 +1,6 @@
 <?php
-abstract class PEAR2_HTTP_Request_Adapter 
+namespace pear2\HTTP\Request;
+abstract class Adapter 
 {
 
     /**
@@ -47,7 +48,7 @@ abstract class PEAR2_HTTP_Request_Adapter
 
     /**
      * Full uri of the proxy server
-     * @var PEAR2_HTTP_Request_Uri
+     * @var pear2\HTTP\Request\Uri
      */
     public $proxy = null;
 
@@ -102,7 +103,7 @@ abstract class PEAR2_HTTP_Request_Adapter
     protected function parseResponseCode($line) 
     {
         if (sscanf($line, 'HTTP/%s %s', $http_version, $returncode) != 2) {
-            throw new PEAR2_HTTP_Request_Exception('Malformed response.');
+            throw new Request\Exception('Malformed response.');
         } else {
             return array('code' => intval($returncode), 'httpVersion' => $http_version);
         }

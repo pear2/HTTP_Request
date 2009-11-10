@@ -1,5 +1,5 @@
 --TEST--
-Get a file larger then memory limit
+Get a file larger than memory limit
 --INI--
 memory_limit=1m
 --FILE--
@@ -7,8 +7,8 @@ memory_limit=1m
 require_once dirname(__FILE__)."/_setup.php";
 
 
-$adapter = new PEAR2_HTTP_Request_Adapter_Curl(); // curl extension
-$request = new PEAR2_HTTP_Request($testServer."2meg.bin",$adapter);
+$adapter = new pear2\HTTP\Request\Adapter\Curl(); // curl extension
+$request = new pear2\HTTP\Request($testServer."2meg.bin",$adapter);
 
 $temp = tempnam('/tmp','phpt');
 

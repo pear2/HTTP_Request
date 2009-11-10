@@ -1,7 +1,7 @@
 <?php
 $url = $testServer.'test001.html';
 
-$http = new PEAR2_HTTP_Request($url,$adapter);
+$http = new pear2\HTTP\Request($url,$adapter);
 $http->verb = 'GET';
 $response = $http->sendRequest();
 // make sure we got the correct body back

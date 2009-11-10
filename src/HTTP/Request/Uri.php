@@ -5,7 +5,8 @@
  *
  * Basically compatiable with Net_URL2 propery names but not methods
  */
-class PEAR2_HTTP_Request_Uri
+namespace pear2\HTTP\Request;
+class Uri
 {
 
     protected $pieces = array();

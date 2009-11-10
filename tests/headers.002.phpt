@@ -1,5 +1,5 @@
 --TEST--
-Test of arrau access for PEAR2_HTTP_Request_Headers
+Test of arrau access for pear2\HTTP\Request\Headers
 --FILE--
 <?php
 require_once dirname(__FILE__).'/_setup.php';
@@ -8,7 +8,7 @@ $in = array(
 	'ETag'		=> 'EADAF124D',
 	'content-length'=> '10'
 	);
-$headers = new PEAR2_HTTP_Request_Headers($in);
+$headers = new pear2\HTTP\Request\Headers($in);
 
 var_dump($headers['content-type']);
 var_dump($headers['Content-Type']);

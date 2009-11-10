@@ -6,7 +6,8 @@
  *
  * @version $Id$
  */
-class PEAR2_HTTP_Request 
+namespace pear2\HTTP;
+class Request 
 {
 
     /**
@@ -52,7 +53,7 @@ class PEAR2_HTTP_Request
                 break;
             case 'uri':
             case 'url':
-                $this->adapter->uri = new PEAR2_HTTP_Request_Uri($value);
+                $this->adapter->uri = new Request\Uri($value);
                 break;
             case 'body':
             case 'content':
@@ -70,7 +71,7 @@ class PEAR2_HTTP_Request
                 $this->adapter->$name = (int)$value;
                 break;
             case 'proxy':
-                $this->adapter->$name = new PEAR2_HTTP_Request_Uri($value);
+                $this->adapter->$name = new Request\Uri($value);
                 break;
             default:
                 $this->adapter->$name = $value;
@@ -82,20 +83,20 @@ class PEAR2_HTTP_Request
      * sets up the adapter
      *
      * @param string                     $url      URL for this request
-     * @param PEAR2_HTTP_Request_Adapter $instance The adapter to use
+     * @param pear2\HTTP\Request\Adapter $instance The adapter to use
      */
     public function __construct($url = null, $instance = null) 
     {
-        if (!is_null($instance) && $instance instanceof PEAR2_HTTP_Request_Adapter) {
+        if (!is_null($instance) && $instance instanceof Request\Adapter) {
             $this->adapter = $instance;
         } elseif (extension_loaded('curl')) {
-            $this->adapter = new PEAR2_HTTP_Request_Adapter_Curl;
+            $this->adapter = new Request\Adapter\Curl;
         } elseif (extension_loaded('http')) {
-            $this->adapter = new PEAR2_HTTP_Request_Adapter_Http;
+            $this->adapter = new Request\Adapter\Http;
         } elseif (ini_get('allow_url_fopen') == true) {
-            $this->adapter = new PEAR2_HTTP_Request_Adapter_Phpstream;
+            $this->adapter = new Request\Adapter\Phpstream;
         } else {
-            $this->adapter = new PEAR2_HTTP_Request_Adapter_Phpsocket;
+            $this->adapter = new Request\Adapter\Phpsocket;
         }
 
         $this->adapter->setListeners($this->_listeners);
@@ -108,7 +109,7 @@ class PEAR2_HTTP_Request
     /**
      * asks for a response class from the adapter
      *
-     * @return PEAR2_HTTP_Request_Response
+     * @return pear2\HTTP\Request\Response
      */
     public function sendRequest() 
     {
@@ -120,7 +121,7 @@ class PEAR2_HTTP_Request
      * Sends a request storing the output to a file
      *
      * @param  string $file File to store too
-     * @return PEAR2_HTTP_Request_Response with no body
+     * @return pear2\HTTP\Request\Response with no body
      */
     public function requestToFile($file)
     {
@@ -144,22 +145,22 @@ class PEAR2_HTTP_Request
      * This method adds a listener to the list of listeners that are 
      * notified of the object's events.
      *
-     * Events sent by the HTTP_Request Object
+     * Events sent by the HTTP\Request Object
      *  - 'connect'     : On connection to server
      *  - 'sentRequest' : After the request was sent to server
      *  - 'disconnect'  : Upon server disconnection
      *
-     * Events sent by the HTTP_Response object
+     * Events sent by the HTTP\Response object
      *  - 'gotHeaders' : After receiving response header
      *  - 'tick'       : On receiving part of response
      *  - 'gzTick'     : On receiving a gzip-encoded part
      *  - 'gotBody'    : Upon receiving body of the message
      *
      *
-     * @param  PEAR2_HTTP_Request_Listener $listener  The listener object
+     * @param  pear2\HTTP\Request\Listener $listener  The listener object
      * @return boolean Whether object is a listener or not
      */
-    public function attach(PEAR2_HTTP_Request_Listener $listener)
+    public function attach(Request\Listener $listener)
     {
         $this->_listeners[$listener->getId()] = $listener;
         $this->adapter->setListeners($this->_listeners);
@@ -172,10 +173,10 @@ class PEAR2_HTTP_Request
      * This method will detach the listener that was set
      * to a request.
      *
-     * @param  PEAR2_HTTP_Request_Listener $listener   The listener
+     * @param  pear2\HTTP\Request\Listener $listener   The listener
      * @return bool true
      */
-    public function detach(PEAR2_HTTP_Request_Listener $listener)
+    public function detach(Request\Listener $listener)
     {
         if (isset($this->_listeners[$listener->getId()])) {
             $this->_listeners[$listener->getId()] = null;
@@ -193,7 +194,7 @@ class PEAR2_HTTP_Request
      *
      * @param     string  $event  The event name
      * @param     mixed  $data   Additional data
-     * @see       PEAR2_HTTP_Request->attach()
+     * @see       pear2\HTTP\Request->attach()
      * @return    void
      */
     protected function _notify($event, $data = null)

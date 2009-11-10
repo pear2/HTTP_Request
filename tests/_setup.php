@@ -1,6 +1,6 @@
 <?php
 $testServer = false; // set to the url where testFiles has been copied
-$testServer = "http://bluga.net/projects/PEAR2_HTTP_Request/test/";
+$testServer = "http://ucommbieber.unl.edu/workspace/PEAR2/HTTP_Request/tests/testFiles/";
 
 // for tests were including all the HTTP_Request files
 // this is a hack to make tests run from svn for now

@@ -1,5 +1,7 @@
 <?php
-class PEAR2_HTTP_Request_Adapter_Curl extends PEAR2_HTTP_Request_Adapter
+namespace pear2\HTTP\Request\Adapter;
+use pear2\HTTP\Request;
+class Curl extends Request\Adapter
 {
     static public $whichOne;
     protected $sentFilesize = false;
@@ -99,10 +101,10 @@ class PEAR2_HTTP_Request_Adapter_Curl extends PEAR2_HTTP_Request_Adapter
         $details['code'] = curl_getinfo($this->curl,CURLINFO_HTTP_CODE);
         //$details['httpVersion'] = $response->getHttpVersion();
 
-        $headers = new PEAR2_HTTP_Request_Headers($this->headers);
+        $headers = new Request\Headers($this->headers);
         $cookies = array();
 
-        return new PEAR2_HTTP_Request_Response($details, $body, $headers, $cookies);
+        return new Request\Response($details, $body, $headers, $cookies);
     }
 
     protected function _headerCallback($curl,$data)

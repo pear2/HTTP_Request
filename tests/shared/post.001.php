@@ -1,7 +1,7 @@
 <?php
 $url = $testServer.'test002.php';
 
-$http = new PEAR2_HTTP_Request($url,$adapter);
+$http = new pear2\HTTP\Request($url,$adapter);
 $http->verb = 'POST';
 $http->body = "Test\n";
 

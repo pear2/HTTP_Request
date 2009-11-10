@@ -6,7 +6,9 @@
  *
  * @version $Revision: 1.52 $
  */
-class PEAR2_HTTP_Request_Adapter_PhpStream extends PEAR2_HTTP_Request_Adapter
+namespace pear2\HTTP\Request\Adapter;
+use pear2\HTTP\Request;
+class PhpStream extends Request\Adapter
 {
     private $_phpErrorStr;
 
@@ -16,7 +18,7 @@ class PEAR2_HTTP_Request_Adapter_PhpStream extends PEAR2_HTTP_Request_Adapter
     public function __construct()
     {
         if (ini_get('allow_url_fopen') == false) {
-            throw new PEAR2_HTTP_Request_Exception(
+            throw new Request\Exception(
                 'allow_url_fopen is off, the http:// stream wrapper will not function'
             );
         }
@@ -56,7 +58,7 @@ class PEAR2_HTTP_Request_Adapter_PhpStream extends PEAR2_HTTP_Request_Adapter
 
         $fp = fopen($this->uri->url, 'rb', false, $ctx);
         if (!is_resource($fp)) {
-            throw new PEAR2_HTTP_Request_Exception('Url ' . $this->uri->url .
+            throw new Request\Exception('Url ' . $this->uri->url .
                             ' could not be opened (PhpStream Adapter)');
         } else {
             restore_error_handler();
@@ -66,7 +68,7 @@ class PEAR2_HTTP_Request_Adapter_PhpStream extends PEAR2_HTTP_Request_Adapter
         $body = stream_get_contents($fp);
 
         if ($body === false) {
-            throw new PEAR2_HTTP_Request_Exception(
+            throw new Request\Exception(
                 'Url ' . $this->uri->url . ' did not return a response'
             );
         }
@@ -89,8 +91,8 @@ class PEAR2_HTTP_Request_Adapter_PhpStream extends PEAR2_HTTP_Request_Adapter
             $this->processHeader($line);
         }
 
-        return new PEAR2_HTTP_Request_Response(
-            $details,$body,new PEAR2_HTTP_Request_Headers($this->headers),$this->cookies);
+        return new Request\Response(
+            $details,$body,new Request\Headers($this->headers),$this->cookies);
     }
 
     /**

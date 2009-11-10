@@ -4,7 +4,7 @@
 // to run from svn checkout
 require_once '../../autoload.php';
 
-$request = new PEAR2_HTTP_Request('http://pear.php.net/');
+$request = new pear2\HTTP\Request('http://pear.php.net/');
 $request->verb = 'HEAD';
 $response = $request->sendRequest();
 

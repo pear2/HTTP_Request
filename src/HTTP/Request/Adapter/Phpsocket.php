@@ -1,5 +1,7 @@
 <?php
-class PEAR2_HTTP_Request_Adapter_Phpsocket_Socket
+namespace pear2\HTTP\Request\Adapter;
+use pear2\HTTP\Request;
+class Phpsocket_Socket
 {
     public $lineLength = 2048;
     private $_handle;
@@ -48,7 +50,7 @@ class PEAR2_HTTP_Request_Adapter_Phpsocket_Socket
  *
  * @version $Revision: 1.52 $
  */
-class PEAR2_HTTP_Request_Adapter_Phpsocket extends PEAR2_HTTP_Request_Adapter
+class Phpsocket extends Request\Adapter
 {   
     /**
      * Used by _readChunked(): remaining length of the current chunk
@@ -78,11 +80,11 @@ class PEAR2_HTTP_Request_Adapter_Phpsocket extends PEAR2_HTTP_Request_Adapter
         $handle   = @fsockopen($this->uri->host, $this->uri->port, $errno, $errstr, 30);
 
         if (!is_resource($handle)) {
-            throw new PEAR2_HTTP_Request_Exception("Couldn't connection to host using Phpsocket Adapter, fsockopen errors($errstr,$errno)");
+            throw new Request\Exception("Couldn't connection to host using Phpsocket Adapter, fsockopen errors($errstr,$errno)");
         }
         stream_set_timeout($handle,10);
 
-        $this->_stream = new PEAR2_HTTP_Request_Adapter_Phpsocket_Socket($handle);
+        $this->_stream = new Phpsocket_Socket($handle);
 
         $this->_stream->write($payload);
 
@@ -92,8 +94,8 @@ class PEAR2_HTTP_Request_Adapter_Phpsocket extends PEAR2_HTTP_Request_Adapter
         $details['httpVersion'] = $this->httpVersion;
 
 
-        $response = new PEAR2_HTTP_Request_Response(
-            $details,$this->body,new PEAR2_HTTP_Request_Headers($this->headers),$this->cookies);
+        $response = new Request\Response(
+            $details,$this->body,new Request\Headers($this->headers),$this->cookies);
         return $response;
     }
 
@@ -229,13 +231,13 @@ class PEAR2_HTTP_Request_Adapter_Phpsocket extends PEAR2_HTTP_Request_Adapter
         }
         $method = ord(substr($data, 2, 1));
         if ($method != 8) {
-            throw new PEAR2_HTTP_Request_Exception('_decodeGzip(): unknown compression method');
+            throw new Request\Exception('_decodeGzip(): unknown compression method');
         }
 
         $flags = ord(substr($data, 3, 1));
 
         if ($flags & 224) {
-            throw new PEAR2_HTTP_Request_Exception('_decodeGzip(): reserved bits are set');
+            throw new Request\Exception('_decodeGzip(): reserved bits are set');
         }
 
         // header is 10 bytes minimum. may be longer, though.
@@ -243,12 +245,12 @@ class PEAR2_HTTP_Request_Adapter_Phpsocket extends PEAR2_HTTP_Request_Adapter
         // extra fields, need to skip 'em
         if ($flags & 4) {
             if ($length - $headerLength - 2 < 8) {
-                throw new PEAR2_HTTP_Request_Exception('_decodeGzip(): data too short');
+                throw new Request\Exception('_decodeGzip(): data too short');
             }
         
             $extraLength = unpack('v', substr($data, 10, 2));
             if ($length - $headerLength - 2 - $extraLength[1] < 8) {
-                throw new PEAR2_HTTP_Request_Exception('_decodeGzip(): data too short');
+                throw new Request\Exception('_decodeGzip(): data too short');
             }
 
             $headerLength += $extraLength[1] + 2;
@@ -256,34 +258,34 @@ class PEAR2_HTTP_Request_Adapter_Phpsocket extends PEAR2_HTTP_Request_Adapter
         // file name, need to skip that
         if ($flags & 8) {
             if ($length - $headerLength - 1 < 8) {
-                throw new PEAR2_HTTP_Request_Exception('_decodeGzip(): data too short');
+                throw new Request\Exception('_decodeGzip(): data too short');
             }
             $filenameLength = strpos(substr($data, $headerLength), chr(0));
             if (false === $filenameLength || $length - $headerLength - $filenameLength - 1 < 8) {
-                throw new PEAR2_HTTP_Request_Exception('_decodeGzip(): data too short');
+                throw new Request\Exception('_decodeGzip(): data too short');
             }
             $headerLength += $filenameLength + 1;
         }
         // comment, need to skip that also
         if ($flags & 16) {
             if ($length - $headerLength - 1 < 8) {
-                throw new PEAR2_HTTP_Request_Exception('_decodeGzip(): data too short');
+                throw new Request\Exception('_decodeGzip(): data too short');
             }
             $commentLength = strpos(substr($data, $headerLength), chr(0));
             if (false === $commentLength || $length - $headerLength - $commentLength - 1 < 8) {
-                throw new PEAR2_HTTP_Request_Exception('_decodeGzip(): data too short');
+                throw new Request\Exception('_decodeGzip(): data too short');
             }
             $headerLength += $commentLength + 1;
         }
         // have a CRC for header. let's check
         if ($flags & 1) {
             if ($length - $headerLength - 2 < 8) {
-                throw new PEAR2_HTTP_Request_Exception('_decodeGzip(): data too short');
+                throw new Request\Exception('_decodeGzip(): data too short');
             }
             $crcReal   = 0xffff & crc32(substr($data, 0, $headerLength));
             $crcStored = unpack('v', substr($data, $headerLength, 2));
             if ($crcReal != $crcStored[1]) {
-                throw new PEAR2_HTTP_Request_Exception('_decodeGzip(): header CRC check failed');
+                throw new Request\Exception('_decodeGzip(): header CRC check failed');
             }
             $headerLength += 2;
         }
@@ -295,11 +297,11 @@ class PEAR2_HTTP_Request_Adapter_Phpsocket extends PEAR2_HTTP_Request_Adapter
         // finally, call the gzinflate() function
         $unpacked = @gzinflate(substr($data, $headerLength, -8), $dataSize);
         if (false === $unpacked) {
-            throw new PEAR2_HTTP_Request_Exception('_decodeGzip(): gzinflate() call failed');
+            throw new Request\Exception('_decodeGzip(): gzinflate() call failed');
         } elseif ($dataSize != strlen($unpacked)) {
-            throw new PEAR2_HTTP_Request_Exception('_decodeGzip(): data size check failed');
+            throw new Request\Exception('_decodeGzip(): data size check failed');
         } elseif ($dataCrc != crc32($unpacked)) {
-            throw new PEAR2_HTTP_Request_Exception('_decodeGzip(): data CRC check failed');
+            throw new Request\Exception('_decodeGzip(): data CRC check failed');
         }
         return $unpacked;
     }

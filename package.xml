@@ -8,10 +8,10 @@
 Please see the examples dir for basic usage
 
 Adapters are available for based on the following code and are used in this order:
-PEAR2_HTTP_Request_Adapter_Http (uses the Pecl Http class)
-PEAR2_HTTP_Request_Adapter_Curl (based on the curl extension, not complete)
-PEAR2_HTTP_Request_Adapter_Phpstream (based on the http php stream code)
-PEAR2_HTTP_Request_Adapter_Phpsocket (based on php sockets, built from PEAR1 HTTP_Request)
+pear2\HTTP\Request\Adapter\Http (uses the Pecl Http class)
+pear2\HTTP\Request\Adapter\Curl (based on the curl extension, not complete)
+pear2\HTTP\Request\Adapter\Phpstream (based on the http php stream code)
+pear2\HTTP\Request\Adapter\Phpsocket (based on php sockets, built from PEAR1 HTTP_Request)
 </description>
  <lead>
   <name>Joshua Eichorn</name>
@@ -43,8 +43,14 @@ PEAR2_HTTP_Request_Adapter_Phpsocket (based on php sockets, built from PEAR1 HTT
   <email>auroraeosrose@php.net</email>
   <active>yes</active>
  </helper>
- <date>2009-10-29</date>
- <time>15:39:58</time>
+ <helper>
+  <name>Brett Bieber</name>
+  <user>saltybeagle</user>
+  <email>saltybeagle@php.net</email>
+  <active>yes</active>
+ </helper>
+ <date>2009-11-10</date>
+ <time>10:07:55</time>
  <version>
   <release>0.1.0</release>
   <api>0.1.0</api>
@@ -64,7 +70,7 @@ PEAR2_HTTP_Request_Adapter_Phpsocket (based on php sockets, built from PEAR1 HTT
     <file role="doc" name="head.php"/>
     <file role="doc" name="post.php"/>
    </dir>
-   <dir name="src" baseinstalldir="PEAR2">
+   <dir name="src" baseinstalldir="pear2">
     <dir name="HTTP">
      <dir name="Request">
       <dir name="Adapter">

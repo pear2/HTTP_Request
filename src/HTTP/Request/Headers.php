@@ -10,7 +10,8 @@
  *
  * @todo decide if this should be pulled out of the package and provided as a generic class
  */
-class PEAR2_HTTP_Request_Headers implements Iterator, ArrayAccess, Countable
+namespace pear2\HTTP\Request;
+class Headers implements \Iterator, \ArrayAccess, \Countable
 {
 
     const ORIGINAL_CASE = 'fields';

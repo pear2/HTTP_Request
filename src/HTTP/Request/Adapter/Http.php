@@ -1,5 +1,7 @@
 <?php
-class PEAR2_HTTP_Request_Adapter_Http extends PEAR2_HTTP_Request_Adapter
+namespace pear2\HTTP\Request\Adapter;
+use pear2\HTTP\Request;
+class Http extends Request\Adapter
 {
     protected $request;
     protected $sentFilesize = false;
@@ -9,7 +11,7 @@ class PEAR2_HTTP_Request_Adapter_Http extends PEAR2_HTTP_Request_Adapter
     public function __construct()
     {
         if (!extension_loaded('http')) {
-            throw new PEAR2_HTTP_Request_Exception(
+            throw new Request\Exception(
                 'The http extension must be loaded in order to use the Peclhttp adapter'
             );
         }
@@ -44,7 +46,7 @@ class PEAR2_HTTP_Request_Adapter_Http extends PEAR2_HTTP_Request_Adapter
             $method = HTTP_METH_GET;
         }
 
-        $this->request = $request = new HttpRequest($this->uri->url, $method, $options);
+        $this->request = $request = new \HttpRequest($this->uri->url, $method, $options);
         $request->setHeaders($this->headers);
         if ($this->body) {
             $request->setRawPostData($this->body);
@@ -59,11 +61,11 @@ class PEAR2_HTTP_Request_Adapter_Http extends PEAR2_HTTP_Request_Adapter
         $details['code'] = $request->getResponseCode();
         $details['httpVersion'] = $response->getHttpVersion();
 
-        $headers = new PEAR2_HTTP_Request_Headers($response->getHeaders());
+        $headers = new Request\Headers($response->getHeaders());
         $cookies = $request->getResponseCookies();
 
 
-        return new PEAR2_HTTP_Request_Response($details, $body, $headers, $cookies);
+        return new Request\Response($details, $body, $headers, $cookies);
     }      
 
     /**

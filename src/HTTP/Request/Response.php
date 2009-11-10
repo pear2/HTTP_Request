@@ -3,7 +3,8 @@
  * A class which represents an HTTP Reponse
  *
  */
-class PEAR2_HTTP_Request_Response
+namespace pear2\HTTP\Request;
+class Response
 {
     /**
      * HTTP Return code
