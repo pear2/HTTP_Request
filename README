@@ -7,4 +7,6 @@ pear2\HTTP\Request\Adapter\Http (uses the Pecl Http class)
 pear2\HTTP\Request\Adapter\Curl (based on the curl extension, not complete)
 pear2\HTTP\Request\Adapter\Phpstream (based on the http php stream code)
 pear2\HTTP\Request\Adapter\Phpsocket (based on php sockets, built from PEAR1 HTTP_Request)
+
+Additional adapters:
 pear2\HTTP\Request\Adapter\Filesystem (useful for mock Internet interaction)
