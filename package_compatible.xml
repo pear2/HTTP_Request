@@ -2,7 +2,7 @@
 <package version="2.1" xmlns="http://pear.php.net/dtd/package-2.1" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0     http://pear.php.net/dtd/tasks-1.0.xsd     http://pear.php.net/dtd/package-2.1     http://pear.php.net/dtd/package-2.1.xsd">
  <name>PEAR2_HTTP_Request</name>
  <channel>pear2.php.net</channel>
- <summary>class to do http requests, uses a adapter based system for performing those requests
+ <summary>Class to perform HTTP requests. Uses an adapter based system for performing those requests
 </summary>
  <description>
 Please see the examples dir for basic usage
@@ -12,6 +12,9 @@ pear2\HTTP\Request\Adapter\Http (uses the Pecl Http class)
 pear2\HTTP\Request\Adapter\Curl (based on the curl extension, not complete)
 pear2\HTTP\Request\Adapter\Phpstream (based on the http php stream code)
 pear2\HTTP\Request\Adapter\Phpsocket (based on php sockets, built from PEAR1 HTTP_Request)
+
+Additional adapters:
+pear2\HTTP\Request\Adapter\Filesystem (useful for mock Internet interaction)
 </description>
  <lead>
   <name>Joshua Eichorn</name>
@@ -49,8 +52,8 @@ pear2\HTTP\Request\Adapter\Phpsocket (based on php sockets, built from PEAR1 HTT
   <email>saltybeagle@php.net</email>
   <active>yes</active>
  </helper>
- <date>2009-11-10</date>
- <time>10:07:55</time>
+ <date>2009-12-12</date>
+ <time>15:54:59</time>
  <version>
   <release>0.1.0</release>
   <api>0.1.0</api>
