@@ -1,4 +1,4 @@
 <?php
-namespace pear2\HTTP\Request;
+namespace PEAR2\HTTP\Request;
 class Exception extends \Exception {
 }

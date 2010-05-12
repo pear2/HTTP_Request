@@ -17,8 +17,8 @@ foreach($adapters as $adapter => $status) {
 		continue;
 	}
 
-	$class = 'pear2\HTTP\Request\Adapter\\'.$adapter;
-	$request = new pear2\HTTP\Request($url,new $class);
+	$class = 'PEAR2\HTTP\Request\Adapter\\'.$adapter;
+	$request = new PEAR2\HTTP\Request($url,new $class);
 	$response = $request->sendRequest();
 
 	echo "$adapter adapter\n";

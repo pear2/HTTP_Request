@@ -5,7 +5,7 @@
  *
  * Basically compatiable with Net_URL2 propery names but not methods
  */
-namespace pear2\HTTP\Request;
+namespace PEAR2\HTTP\Request;
 class Uri
 {
 

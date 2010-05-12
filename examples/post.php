@@ -4,7 +4,7 @@
 // to run from svn checkout
 require_once '../../autoload.php';
 
-$request = new pear2\HTTP\Request('http://bluga.net/post.php');
+$request = new PEAR2\HTTP\Request('http://bluga.net/post.php');
 $request->body = array('test1'=>'value1','test2'=>'value2');
 
 $response = $request->sendRequest();

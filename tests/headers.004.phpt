@@ -1,5 +1,5 @@
 --TEST--
-Test of iterator in pear2\HTTP\Request\Headers
+Test of iterator in PEAR2\HTTP\Request\Headers
 --FILE--
 <?php
 require_once dirname(__FILE__).'/_setup.php';
@@ -8,18 +8,18 @@ $in = array(
 	'ETag'		=> 'EADAF124D',
 	'content-length'=> '10'
 	);
-$headers = new pear2\HTTP\Request\Headers($in);
+$headers = new PEAR2\HTTP\Request\Headers($in);
 
 foreach($headers as $k => $v) {
 	echo "$k: $v\n";
 }
 
-$headers->iterationStyle = pear2\HTTP\Request\Headers::CAMEL_CASE;
+$headers->iterationStyle = PEAR2\HTTP\Request\Headers::CAMEL_CASE;
 foreach($headers as $k => $v) {
 	echo "$k: $v\n";
 }
 
-$headers->iterationStyle = pear2\HTTP\Request\Headers::ORIGINAL_CASE;
+$headers->iterationStyle = PEAR2\HTTP\Request\Headers::ORIGINAL_CASE;
 foreach($headers as $k => $v) {
 	echo "$k: $v\n";
 }

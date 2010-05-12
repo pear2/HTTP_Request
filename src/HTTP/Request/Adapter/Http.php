@@ -1,6 +1,6 @@
 <?php
-namespace pear2\HTTP\Request\Adapter;
-use pear2\HTTP\Request;
+namespace PEAR2\HTTP\Request\Adapter;
+use PEAR2\HTTP\Request;
 class Http extends Request\Adapter
 {
     protected $request;

@@ -6,8 +6,8 @@
  *
  * @version $Revision: 1.52 $
  */
-namespace pear2\HTTP\Request\Adapter;
-use pear2\HTTP\Request;
+namespace PEAR2\HTTP\Request\Adapter;
+use PEAR2\HTTP\Request;
 class PhpStream extends Request\Adapter
 {
     private $_phpErrorStr;

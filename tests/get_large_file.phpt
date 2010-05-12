@@ -7,8 +7,8 @@ memory_limit=1m
 require_once dirname(__FILE__)."/_setup.php";
 
 
-$adapter = new pear2\HTTP\Request\Adapter\Curl(); // curl extension
-$request = new pear2\HTTP\Request($testServer."2meg.bin",$adapter);
+$adapter = new PEAR2\HTTP\Request\Adapter\Curl(); // curl extension
+$request = new PEAR2\HTTP\Request($testServer."2meg.bin",$adapter);
 
 $temp = tempnam('/tmp','phpt');
 

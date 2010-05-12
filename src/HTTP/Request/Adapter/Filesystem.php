@@ -1,6 +1,6 @@
 <?php
-namespace pear2\HTTP\Request\Adapter;
-use pear2\HTTP\Request;
+namespace PEAR2\HTTP\Request\Adapter;
+use PEAR2\HTTP\Request;
 class Filesystem extends Request\Adapter
 {
     public static $requestMap;
@@ -9,7 +9,7 @@ class Filesystem extends Request\Adapter
      * Add a local filesystem directory, and map it to a url base.
      * 
      * <code>
-     * pear2\HTTP\Request\Adapter\Filesystem::addDirectory(
+     * PEAR2\HTTP\Request\Adapter\Filesystem::addDirectory(
      *                  '/var/www/html/pear2.php.net',
      *                  'http://pear2.php.net/');
      * </code>
@@ -55,7 +55,7 @@ class Filesystem extends Request\Adapter
             $details['code'] = '200';
         }
         // $this->verb is GET/POST/etc.
-        // $this->uri is pear2\HTTP\Request\Uri
+        // $this->uri is PEAR2\HTTP\Request\Uri
         // $this->headers is array of headers
         // $this->body is request body
 

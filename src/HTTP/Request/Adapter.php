@@ -1,5 +1,5 @@
 <?php
-namespace pear2\HTTP\Request;
+namespace PEAR2\HTTP\Request;
 abstract class Adapter 
 {
 
@@ -48,7 +48,7 @@ abstract class Adapter
 
     /**
      * Full uri of the proxy server
-     * @var pear2\HTTP\Request\Uri
+     * @var PEAR2\HTTP\Request\Uri
      */
     public $proxy = null;
 

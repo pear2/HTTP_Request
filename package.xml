@@ -8,13 +8,13 @@
 Please see the examples dir for basic usage
 
 Adapters are available for based on the following code and are used in this order:
-pear2\HTTP\Request\Adapter\Http (uses the Pecl Http class)
-pear2\HTTP\Request\Adapter\Curl (based on the curl extension, not complete)
-pear2\HTTP\Request\Adapter\Phpstream (based on the http php stream code)
-pear2\HTTP\Request\Adapter\Phpsocket (based on php sockets, built from PEAR1 HTTP_Request)
+PEAR2\HTTP\Request\Adapter\Http (uses the Pecl Http class)
+PEAR2\HTTP\Request\Adapter\Curl (based on the curl extension, not complete)
+PEAR2\HTTP\Request\Adapter\Phpstream (based on the http php stream code)
+PEAR2\HTTP\Request\Adapter\Phpsocket (based on php sockets, built from PEAR1 HTTP_Request)
 
 Additional adapters:
-pear2\HTTP\Request\Adapter\Filesystem (useful for mock Internet interaction)
+PEAR2\HTTP\Request\Adapter\Filesystem (useful for mock Internet interaction)
 </description>
  <lead>
   <name>Joshua Eichorn</name>
@@ -73,7 +73,7 @@ pear2\HTTP\Request\Adapter\Filesystem (useful for mock Internet interaction)
     <file role="doc" name="head.php"/>
     <file role="doc" name="post.php"/>
    </dir>
-   <dir name="src" baseinstalldir="pear2">
+   <dir name="src" baseinstalldir="PEAR2">
     <dir name="HTTP">
      <dir name="Request">
       <dir name="Adapter">

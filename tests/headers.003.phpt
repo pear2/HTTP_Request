@@ -1,5 +1,5 @@
 --TEST--
-Test of count functionality in pear2\HTTP\Request\Headers
+Test of count functionality in PEAR2\HTTP\Request\Headers
 --FILE--
 <?php
 require_once dirname(__FILE__).'/_setup.php';
@@ -8,7 +8,7 @@ $in = array(
 	'ETag'		=> 'EADAF124D',
 	'content-length'=> '10'
 	);
-$headers = new pear2\HTTP\Request\Headers($in);
+$headers = new PEAR2\HTTP\Request\Headers($in);
 
 var_dump(count($headers));
 ?>

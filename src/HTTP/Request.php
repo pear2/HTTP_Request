@@ -6,7 +6,7 @@
  *
  * @version $Id$
  */
-namespace pear2\HTTP;
+namespace PEAR2\HTTP;
 class Request 
 {
 
@@ -83,7 +83,7 @@ class Request
      * sets up the adapter
      *
      * @param string                     $url      URL for this request
-     * @param pear2\HTTP\Request\Adapter $instance The adapter to use
+     * @param PEAR2\HTTP\Request\Adapter $instance The adapter to use
      */
     public function __construct($url = null, $instance = null) 
     {
@@ -109,7 +109,7 @@ class Request
     /**
      * asks for a response class from the adapter
      *
-     * @return pear2\HTTP\Request\Response
+     * @return PEAR2\HTTP\Request\Response
      */
     public function sendRequest() 
     {
@@ -121,7 +121,7 @@ class Request
      * Sends a request storing the output to a file
      *
      * @param  string $file File to store too
-     * @return pear2\HTTP\Request\Response with no body
+     * @return PEAR2\HTTP\Request\Response with no body
      */
     public function requestToFile($file)
     {
@@ -157,7 +157,7 @@ class Request
      *  - 'gotBody'    : Upon receiving body of the message
      *
      *
-     * @param  pear2\HTTP\Request\Listener $listener  The listener object
+     * @param  PEAR2\HTTP\Request\Listener $listener  The listener object
      * @return boolean Whether object is a listener or not
      */
     public function attach(Request\Listener $listener)
@@ -173,7 +173,7 @@ class Request
      * This method will detach the listener that was set
      * to a request.
      *
-     * @param  pear2\HTTP\Request\Listener $listener   The listener
+     * @param  PEAR2\HTTP\Request\Listener $listener   The listener
      * @return bool true
      */
     public function detach(Request\Listener $listener)
@@ -194,7 +194,7 @@ class Request
      *
      * @param     string  $event  The event name
      * @param     mixed  $data   Additional data
-     * @see       pear2\HTTP\Request->attach()
+     * @see       PEAR2\HTTP\Request->attach()
      * @return    void
      */
     protected function _notify($event, $data = null)

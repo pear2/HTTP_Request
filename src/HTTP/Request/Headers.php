@@ -10,7 +10,7 @@
  *
  * @todo decide if this should be pulled out of the package and provided as a generic class
  */
-namespace pear2\HTTP\Request;
+namespace PEAR2\HTTP\Request;
 class Headers implements \Iterator, \ArrayAccess, \Countable
 {
 
