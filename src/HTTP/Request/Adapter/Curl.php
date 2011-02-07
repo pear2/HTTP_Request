@@ -67,7 +67,11 @@ class Curl extends Request\Adapter
         curl_setopt($this->curl,CURLOPT_CUSTOMREQUEST,$this->verb);
 
         // headers
-        curl_setopt($this->curl,CURLOPT_HTTPHEADER,$this->headers);
+        $headers = array();
+        foreach ($this->headers as $field => $value) {
+            $headers[] = $field . ': ' . $value;
+        }
+        curl_setopt($this->curl,CURLOPT_HTTPHEADER,$headers);
 
         // general stuff
         curl_setopt($this->curl,CURLOPT_BINARYTRANSFER,true);
