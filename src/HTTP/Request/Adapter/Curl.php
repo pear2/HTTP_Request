@@ -93,6 +93,13 @@ class Curl extends Request\Adapter
     protected function _sendRequest()
     {
         $body = curl_exec($this->curl);
+
+        if (false === $body) {
+            throw new Request\Exception(
+                'Curl ' . curl_error($this->curl) . ' (' . curl_errno($this->curl) . ')'
+            );
+        }
+
         $this->sentFilesize = false;
 
         if ($this->fp !== false) {
