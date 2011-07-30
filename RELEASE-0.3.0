@@ -1,0 +1,4 @@
+Bugs/Features:
+
+* Correct format of headers passed when setting CURLOPT_HTTPHEADER [amir]
+* Make all adapters send a disconnect notification [fpoirotte]
