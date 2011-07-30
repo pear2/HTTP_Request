@@ -93,6 +93,7 @@ class Curl extends Request\Adapter
     protected function _sendRequest()
     {
         $body = curl_exec($this->curl);
+        $this->_notify('disconnect');
 
         if (false === $body) {
             throw new Request\Exception(
