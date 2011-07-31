@@ -1,0 +1,8 @@
+/run-tests.log
+.DS_Store
+/.settings/
+/.project
+/.buildpath
+*.xdebug
+/tests/pear2coverage.db
+/tests/testFiles/2meg.bin
