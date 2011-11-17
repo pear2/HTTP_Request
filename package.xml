@@ -8,13 +8,15 @@
 Please see the examples dir for basic usage
 
 Adapters are available for based on the following code and are used in this order:
-PEAR2\HTTP\Request\Adapter\Http (uses the Pecl Http class)
-PEAR2\HTTP\Request\Adapter\Curl (based on the curl extension, not complete)
-PEAR2\HTTP\Request\Adapter\Phpstream (based on the http php stream code)
-PEAR2\HTTP\Request\Adapter\Phpsocket (based on php sockets, built from PEAR1 HTTP_Request)
+
+* PEAR2\HTTP\Request\Adapter\Http (uses the Pecl Http class)
+* PEAR2\HTTP\Request\Adapter\Curl (based on the curl extension, not complete)
+* PEAR2\HTTP\Request\Adapter\Phpstream (based on the http php stream code)
+* PEAR2\HTTP\Request\Adapter\Phpsocket (based on php sockets, built from PEAR1 HTTP_Request)
 
 Additional adapters:
-PEAR2\HTTP\Request\Adapter\Filesystem (useful for mock Internet interaction)
+
+* PEAR2\HTTP\Request\Adapter\Filesystem (useful for mock Internet interaction)
 </description>
  <lead>
   <name>Joshua Eichorn</name>
@@ -52,10 +54,10 @@ PEAR2\HTTP\Request\Adapter\Filesystem (useful for mock Internet interaction)
   <email>saltybeagle@php.net</email>
   <active>yes</active>
  </helper>
- <date>2010-05-23</date>
- <time>08:45:13</time>
+ <date>2011-11-16</date>
+ <time>21:18:25</time>
  <version>
-  <release>0.2.0</release>
+  <release>0.3.0</release>
   <api>0.1.0</api>
  </version>
  <stability>
@@ -63,7 +65,12 @@ PEAR2\HTTP\Request\Adapter\Filesystem (useful for mock Internet interaction)
   <api>alpha</api>
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
- <notes>Convert namespace to PEAR2</notes>
+ <notes>Bugs/Features:
+
+* Correct format of headers passed when setting CURLOPT_HTTPHEADER [amir]
+* Make all adapters send a disconnect notification [fpoirotte]
+* Fix &quot;filesize&quot; notification in cURL adapter. [fpoirotte]
+</notes>
  <contents>
   <dir name="/">
    <dir name="examples">
@@ -115,6 +122,7 @@ PEAR2\HTTP\Request\Adapter\Filesystem (useful for mock Internet interaction)
      <file role="test" name="post.001.php"/>
     </dir>
     <dir name="testFiles">
+     <file role="test" name="2meg.bin"/>
      <file role="test" name="mktestFiles.sh"/>
      <file role="test" name="test001.html"/>
      <file role="test" name="test002.php"/>

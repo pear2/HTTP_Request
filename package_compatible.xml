@@ -8,13 +8,15 @@
 Please see the examples dir for basic usage
 
 Adapters are available for based on the following code and are used in this order:
-PEAR2\HTTP\Request\Adapter\Http (uses the Pecl Http class)
-PEAR2\HTTP\Request\Adapter\Curl (based on the curl extension, not complete)
-PEAR2\HTTP\Request\Adapter\Phpstream (based on the http php stream code)
-PEAR2\HTTP\Request\Adapter\Phpsocket (based on php sockets, built from PEAR1 HTTP_Request)
+
+* PEAR2\HTTP\Request\Adapter\Http (uses the Pecl Http class)
+* PEAR2\HTTP\Request\Adapter\Curl (based on the curl extension, not complete)
+* PEAR2\HTTP\Request\Adapter\Phpstream (based on the http php stream code)
+* PEAR2\HTTP\Request\Adapter\Phpsocket (based on php sockets, built from PEAR1 HTTP_Request)
 
 Additional adapters:
-PEAR2\HTTP\Request\Adapter\Filesystem (useful for mock Internet interaction)
+
+* PEAR2\HTTP\Request\Adapter\Filesystem (useful for mock Internet interaction)
 </description>
  <lead>
   <name>Joshua Eichorn</name>
@@ -52,10 +54,10 @@ PEAR2\HTTP\Request\Adapter\Filesystem (useful for mock Internet interaction)
   <email>saltybeagle@php.net</email>
   <active>yes</active>
  </helper>
- <date>2010-05-23</date>
- <time>08:45:13</time>
+ <date>2011-11-16</date>
+ <time>21:18:25</time>
  <version>
-  <release>0.2.0</release>
+  <release>0.3.0</release>
   <api>0.1.0</api>
  </version>
  <stability>
@@ -63,31 +65,37 @@ PEAR2\HTTP\Request\Adapter\Filesystem (useful for mock Internet interaction)
   <api>alpha</api>
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
- <notes>Convert namespace to PEAR2</notes>
+ <notes>Bugs/Features:
+
+* Correct format of headers passed when setting CURLOPT_HTTPHEADER [amir]
+* Make all adapters send a disconnect notification [fpoirotte]
+* Fix &quot;filesize&quot; notification in cURL adapter. [fpoirotte]
+</notes>
  <contents>
   <dir name="/">
-   <file role="test" name="test/PEAR2_HTTP_Request/pear2.php.net/_setup.php"/>
-   <file role="test" name="test/PEAR2_HTTP_Request/pear2.php.net/testFiles/testFiles/test003.png"/>
-   <file role="test" name="test/PEAR2_HTTP_Request/pear2.php.net/testFiles/testFiles/test002.php"/>
-   <file role="test" name="test/PEAR2_HTTP_Request/pear2.php.net/testFiles/testFiles/test001.html"/>
-   <file role="test" name="test/PEAR2_HTTP_Request/pear2.php.net/testFiles/testFiles/mktestFiles.sh"/>
-   <file role="test" name="test/PEAR2_HTTP_Request/pear2.php.net/shared/shared/post.001.php"/>
-   <file role="test" name="test/PEAR2_HTTP_Request/pear2.php.net/shared/shared/get.002.php"/>
-   <file role="test" name="test/PEAR2_HTTP_Request/pear2.php.net/shared/shared/get.001.php"/>
-   <file role="test" name="test/PEAR2_HTTP_Request/pear2.php.net/phpstream/phpstream/post.001.phpt"/>
-   <file role="test" name="test/PEAR2_HTTP_Request/pear2.php.net/phpstream/phpstream/get.002.phpt"/>
-   <file role="test" name="test/PEAR2_HTTP_Request/pear2.php.net/phpstream/phpstream/get.001.phpt"/>
-   <file role="test" name="test/PEAR2_HTTP_Request/pear2.php.net/phpsocket/phpsocket/post.001.phpt"/>
-   <file role="test" name="test/PEAR2_HTTP_Request/pear2.php.net/phpsocket/phpsocket/get.002.phpt"/>
-   <file role="test" name="test/PEAR2_HTTP_Request/pear2.php.net/phpsocket/phpsocket/get.001.phpt"/>
-   <file role="test" name="test/PEAR2_HTTP_Request/pear2.php.net/http/http/post.001.phpt"/>
-   <file role="test" name="test/PEAR2_HTTP_Request/pear2.php.net/http/http/get.002.phpt"/>
-   <file role="test" name="test/PEAR2_HTTP_Request/pear2.php.net/http/http/get.001.phpt"/>
-   <file role="test" name="test/PEAR2_HTTP_Request/pear2.php.net/headers.004.phpt"/>
-   <file role="test" name="test/PEAR2_HTTP_Request/pear2.php.net/headers.003.phpt"/>
-   <file role="test" name="test/PEAR2_HTTP_Request/pear2.php.net/headers.002.phpt"/>
-   <file role="test" name="test/PEAR2_HTTP_Request/pear2.php.net/headers.001.phpt"/>
-   <file role="test" name="test/PEAR2_HTTP_Request/pear2.php.net/get_large_file.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_HTTP_Request/_setup.php"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_HTTP_Request/testFiles/testFiles/test003.png"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_HTTP_Request/testFiles/testFiles/test002.php"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_HTTP_Request/testFiles/testFiles/test001.html"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_HTTP_Request/testFiles/testFiles/mktestFiles.sh"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_HTTP_Request/testFiles/testFiles/2meg.bin"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_HTTP_Request/shared/shared/post.001.php"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_HTTP_Request/shared/shared/get.002.php"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_HTTP_Request/shared/shared/get.001.php"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_HTTP_Request/phpstream/phpstream/post.001.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_HTTP_Request/phpstream/phpstream/get.002.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_HTTP_Request/phpstream/phpstream/get.001.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_HTTP_Request/phpsocket/phpsocket/post.001.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_HTTP_Request/phpsocket/phpsocket/get.002.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_HTTP_Request/phpsocket/phpsocket/get.001.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_HTTP_Request/http/http/post.001.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_HTTP_Request/http/http/get.002.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_HTTP_Request/http/http/get.001.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_HTTP_Request/headers.004.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_HTTP_Request/headers.003.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_HTTP_Request/headers.002.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_HTTP_Request/headers.001.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_HTTP_Request/get_large_file.phpt"/>
    <file role="php" name="php/PEAR2/HTTP/Request/Uri.php"/>
    <file role="php" name="php/PEAR2/HTTP/Request/Response.php"/>
    <file role="php" name="php/PEAR2/HTTP/Request/Listener.php"/>
@@ -101,10 +109,10 @@ PEAR2\HTTP\Request\Adapter\Filesystem (useful for mock Internet interaction)
    <file role="php" name="php/PEAR2/HTTP/Request/Adapter/Curl.php"/>
    <file role="php" name="php/PEAR2/HTTP/Request/Adapter.php"/>
    <file role="php" name="php/PEAR2/HTTP/Request.php"/>
-   <file role="doc" name="doc/PEAR2_HTTP_Request/pear2.php.net/examples/examples/post.php"/>
-   <file role="doc" name="doc/PEAR2_HTTP_Request/pear2.php.net/examples/examples/head.php"/>
-   <file role="doc" name="doc/PEAR2_HTTP_Request/pear2.php.net/examples/examples/get.php"/>
-   <file role="doc" name="doc/PEAR2_HTTP_Request/pear2.php.net/examples/examples/adapter.php"/>
+   <file role="doc" name="doc/pear2.php.net/PEAR2_HTTP_Request/examples/examples/post.php"/>
+   <file role="doc" name="doc/pear2.php.net/PEAR2_HTTP_Request/examples/examples/head.php"/>
+   <file role="doc" name="doc/pear2.php.net/PEAR2_HTTP_Request/examples/examples/get.php"/>
+   <file role="doc" name="doc/pear2.php.net/PEAR2_HTTP_Request/examples/examples/adapter.php"/>
   </dir>
  </contents>
  <dependencies>
@@ -119,10 +127,10 @@ PEAR2\HTTP\Request\Adapter\Filesystem (useful for mock Internet interaction)
  </dependencies>
  <phprelease>
   <filelist>
-   <install name="doc/PEAR2_HTTP_Request/pear2.php.net/examples/examples/adapter.php" as="pear2.php.net/examples/examples/adapter.php"/>
-   <install name="doc/PEAR2_HTTP_Request/pear2.php.net/examples/examples/get.php" as="pear2.php.net/examples/examples/get.php"/>
-   <install name="doc/PEAR2_HTTP_Request/pear2.php.net/examples/examples/head.php" as="pear2.php.net/examples/examples/head.php"/>
-   <install name="doc/PEAR2_HTTP_Request/pear2.php.net/examples/examples/post.php" as="pear2.php.net/examples/examples/post.php"/>
+   <install name="doc/pear2.php.net/PEAR2_HTTP_Request/examples/examples/adapter.php" as="PEAR2_HTTP_Request/examples/examples/adapter.php"/>
+   <install name="doc/pear2.php.net/PEAR2_HTTP_Request/examples/examples/get.php" as="PEAR2_HTTP_Request/examples/examples/get.php"/>
+   <install name="doc/pear2.php.net/PEAR2_HTTP_Request/examples/examples/head.php" as="PEAR2_HTTP_Request/examples/examples/head.php"/>
+   <install name="doc/pear2.php.net/PEAR2_HTTP_Request/examples/examples/post.php" as="PEAR2_HTTP_Request/examples/examples/post.php"/>
    <install name="php/PEAR2/HTTP/Request.php" as="PEAR2/HTTP/Request.php"/>
    <install name="php/PEAR2/HTTP/Request/Adapter.php" as="PEAR2/HTTP/Request/Adapter.php"/>
    <install name="php/PEAR2/HTTP/Request/Adapter/Curl.php" as="PEAR2/HTTP/Request/Adapter/Curl.php"/>
@@ -136,28 +144,29 @@ PEAR2\HTTP\Request\Adapter\Filesystem (useful for mock Internet interaction)
    <install name="php/PEAR2/HTTP/Request/Listener.php" as="PEAR2/HTTP/Request/Listener.php"/>
    <install name="php/PEAR2/HTTP/Request/Response.php" as="PEAR2/HTTP/Request/Response.php"/>
    <install name="php/PEAR2/HTTP/Request/Uri.php" as="PEAR2/HTTP/Request/Uri.php"/>
-   <install name="test/PEAR2_HTTP_Request/pear2.php.net/get_large_file.phpt" as="pear2.php.net/get_large_file.phpt"/>
-   <install name="test/PEAR2_HTTP_Request/pear2.php.net/headers.001.phpt" as="pear2.php.net/headers.001.phpt"/>
-   <install name="test/PEAR2_HTTP_Request/pear2.php.net/headers.002.phpt" as="pear2.php.net/headers.002.phpt"/>
-   <install name="test/PEAR2_HTTP_Request/pear2.php.net/headers.003.phpt" as="pear2.php.net/headers.003.phpt"/>
-   <install name="test/PEAR2_HTTP_Request/pear2.php.net/headers.004.phpt" as="pear2.php.net/headers.004.phpt"/>
-   <install name="test/PEAR2_HTTP_Request/pear2.php.net/http/http/get.001.phpt" as="pear2.php.net/http/http/get.001.phpt"/>
-   <install name="test/PEAR2_HTTP_Request/pear2.php.net/http/http/get.002.phpt" as="pear2.php.net/http/http/get.002.phpt"/>
-   <install name="test/PEAR2_HTTP_Request/pear2.php.net/http/http/post.001.phpt" as="pear2.php.net/http/http/post.001.phpt"/>
-   <install name="test/PEAR2_HTTP_Request/pear2.php.net/phpsocket/phpsocket/get.001.phpt" as="pear2.php.net/phpsocket/phpsocket/get.001.phpt"/>
-   <install name="test/PEAR2_HTTP_Request/pear2.php.net/phpsocket/phpsocket/get.002.phpt" as="pear2.php.net/phpsocket/phpsocket/get.002.phpt"/>
-   <install name="test/PEAR2_HTTP_Request/pear2.php.net/phpsocket/phpsocket/post.001.phpt" as="pear2.php.net/phpsocket/phpsocket/post.001.phpt"/>
-   <install name="test/PEAR2_HTTP_Request/pear2.php.net/phpstream/phpstream/get.001.phpt" as="pear2.php.net/phpstream/phpstream/get.001.phpt"/>
-   <install name="test/PEAR2_HTTP_Request/pear2.php.net/phpstream/phpstream/get.002.phpt" as="pear2.php.net/phpstream/phpstream/get.002.phpt"/>
-   <install name="test/PEAR2_HTTP_Request/pear2.php.net/phpstream/phpstream/post.001.phpt" as="pear2.php.net/phpstream/phpstream/post.001.phpt"/>
-   <install name="test/PEAR2_HTTP_Request/pear2.php.net/shared/shared/get.001.php" as="pear2.php.net/shared/shared/get.001.php"/>
-   <install name="test/PEAR2_HTTP_Request/pear2.php.net/shared/shared/get.002.php" as="pear2.php.net/shared/shared/get.002.php"/>
-   <install name="test/PEAR2_HTTP_Request/pear2.php.net/shared/shared/post.001.php" as="pear2.php.net/shared/shared/post.001.php"/>
-   <install name="test/PEAR2_HTTP_Request/pear2.php.net/testFiles/testFiles/mktestFiles.sh" as="pear2.php.net/testFiles/testFiles/mktestFiles.sh"/>
-   <install name="test/PEAR2_HTTP_Request/pear2.php.net/testFiles/testFiles/test001.html" as="pear2.php.net/testFiles/testFiles/test001.html"/>
-   <install name="test/PEAR2_HTTP_Request/pear2.php.net/testFiles/testFiles/test002.php" as="pear2.php.net/testFiles/testFiles/test002.php"/>
-   <install name="test/PEAR2_HTTP_Request/pear2.php.net/testFiles/testFiles/test003.png" as="pear2.php.net/testFiles/testFiles/test003.png"/>
-   <install name="test/PEAR2_HTTP_Request/pear2.php.net/_setup.php" as="pear2.php.net/_setup.php"/>
+   <install name="test/pear2.php.net/PEAR2_HTTP_Request/get_large_file.phpt" as="PEAR2_HTTP_Request/get_large_file.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_HTTP_Request/headers.001.phpt" as="PEAR2_HTTP_Request/headers.001.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_HTTP_Request/headers.002.phpt" as="PEAR2_HTTP_Request/headers.002.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_HTTP_Request/headers.003.phpt" as="PEAR2_HTTP_Request/headers.003.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_HTTP_Request/headers.004.phpt" as="PEAR2_HTTP_Request/headers.004.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_HTTP_Request/http/http/get.001.phpt" as="PEAR2_HTTP_Request/http/http/get.001.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_HTTP_Request/http/http/get.002.phpt" as="PEAR2_HTTP_Request/http/http/get.002.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_HTTP_Request/http/http/post.001.phpt" as="PEAR2_HTTP_Request/http/http/post.001.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_HTTP_Request/phpsocket/phpsocket/get.001.phpt" as="PEAR2_HTTP_Request/phpsocket/phpsocket/get.001.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_HTTP_Request/phpsocket/phpsocket/get.002.phpt" as="PEAR2_HTTP_Request/phpsocket/phpsocket/get.002.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_HTTP_Request/phpsocket/phpsocket/post.001.phpt" as="PEAR2_HTTP_Request/phpsocket/phpsocket/post.001.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_HTTP_Request/phpstream/phpstream/get.001.phpt" as="PEAR2_HTTP_Request/phpstream/phpstream/get.001.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_HTTP_Request/phpstream/phpstream/get.002.phpt" as="PEAR2_HTTP_Request/phpstream/phpstream/get.002.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_HTTP_Request/phpstream/phpstream/post.001.phpt" as="PEAR2_HTTP_Request/phpstream/phpstream/post.001.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_HTTP_Request/shared/shared/get.001.php" as="PEAR2_HTTP_Request/shared/shared/get.001.php"/>
+   <install name="test/pear2.php.net/PEAR2_HTTP_Request/shared/shared/get.002.php" as="PEAR2_HTTP_Request/shared/shared/get.002.php"/>
+   <install name="test/pear2.php.net/PEAR2_HTTP_Request/shared/shared/post.001.php" as="PEAR2_HTTP_Request/shared/shared/post.001.php"/>
+   <install name="test/pear2.php.net/PEAR2_HTTP_Request/testFiles/testFiles/2meg.bin" as="PEAR2_HTTP_Request/testFiles/testFiles/2meg.bin"/>
+   <install name="test/pear2.php.net/PEAR2_HTTP_Request/testFiles/testFiles/mktestFiles.sh" as="PEAR2_HTTP_Request/testFiles/testFiles/mktestFiles.sh"/>
+   <install name="test/pear2.php.net/PEAR2_HTTP_Request/testFiles/testFiles/test001.html" as="PEAR2_HTTP_Request/testFiles/testFiles/test001.html"/>
+   <install name="test/pear2.php.net/PEAR2_HTTP_Request/testFiles/testFiles/test002.php" as="PEAR2_HTTP_Request/testFiles/testFiles/test002.php"/>
+   <install name="test/pear2.php.net/PEAR2_HTTP_Request/testFiles/testFiles/test003.png" as="PEAR2_HTTP_Request/testFiles/testFiles/test003.png"/>
+   <install name="test/pear2.php.net/PEAR2_HTTP_Request/_setup.php" as="PEAR2_HTTP_Request/_setup.php"/>
   </filelist>
  </phprelease>
 </package>
