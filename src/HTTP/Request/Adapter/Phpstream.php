@@ -46,9 +46,11 @@ class PhpStream extends Request\Adapter
                     'proxy'  => $proxyurl,
                     'ignore_errors' => true,
                     'max_redirects' => 3,
+                    'request_fulluri' => true,
                 )
             );
         // create context with proper junk
+
         $ctx = stream_context_create(
             $info
         );
@@ -90,7 +92,6 @@ class PhpStream extends Request\Adapter
         foreach($headers as $line) {
             $this->processHeader($line);
         }
-
         return new Request\Response(
             $details,$body,new Request\Headers($this->headers),$this->cookies);
     }
