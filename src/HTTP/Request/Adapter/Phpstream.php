@@ -34,9 +34,12 @@ class PhpStream extends Request\Adapter
     public function sendRequest()
     {
 
-        $proxyurl = '';
+        $proxyurl        = '';
+        $request_fulluri = false;
+
         if (!is_null($this->proxy)) {
-            $proxyurl = $this->proxy->url;
+            $proxyurl        = $this->proxy->url;
+            $request_fulluri = true;
         }
         $info = array(
                 $this->uri->protocol => array(
@@ -46,7 +49,7 @@ class PhpStream extends Request\Adapter
                     'proxy'  => $proxyurl,
                     'ignore_errors' => true,
                     'max_redirects' => 3,
-                    'request_fulluri' => true,
+                    'request_fulluri' => $request_fulluri,
                 )
             );
         // create context with proper junk
