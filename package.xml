@@ -54,10 +54,10 @@ Additional adapters:
   <email>saltybeagle@php.net</email>
   <active>yes</active>
  </helper>
- <date>2011-11-16</date>
- <time>21:18:25</time>
+ <date>2012-02-17</date>
+ <time>10:05:30</time>
  <version>
-  <release>0.3.0</release>
+  <release>0.3.1</release>
   <api>0.1.0</api>
  </version>
  <stability>
@@ -65,11 +65,9 @@ Additional adapters:
   <api>alpha</api>
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
- <notes>Bugs/Features:
+ <notes>Bugfix release:
 
-* Correct format of headers passed when setting CURLOPT_HTTPHEADER [amir]
-* Make all adapters send a disconnect notification [fpoirotte]
-* Fix &quot;filesize&quot; notification in cURL adapter. [fpoirotte]
+* Phpstream adapter - add request_fulluri to fix proxy support [olofa]
 </notes>
  <contents>
   <dir name="/">
