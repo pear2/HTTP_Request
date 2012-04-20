@@ -8,8 +8,8 @@ $testServer = "http://localhost/workspace/PEAR2_HTTP_Request/tests/testFiles/";
 function autoload($class)
 {
     $file = str_replace(
-                array('PEAR2\\', '\\', '_'),
-                array('', DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR),
+                array('\\', '_'),
+                array(DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR),
                 $class
             );
     $file .= '.php';
